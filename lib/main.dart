@@ -1,4 +1,24 @@
+import 'dart:async';
+
+import 'package:cache_image/cache_image.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:preload_page_view/preload_page_view.dart';
+
+import 'page/ToastPage.dart';
+import 'page/authority_page.dart';
+import 'page/image_animation_page.dart';
+import 'page/popup_window_page.dart';
+import 'page/slider_page.dart';
+import 'page/video/video2_page.dart';
+import 'page/video/video3_page.dart';
+import 'page/video/video4_page.dart';
+import 'page/video/video5_page.dart';
+import 'util/fast_click.dart';
+import 'util/http_download_file.dart';
+import 'widget/download_state_view.dart';
+
+
 
 void main() {
   runApp(MyApp());
@@ -10,108 +30,472 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MySplashPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
+class MySplashPage extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MySplashPageState createState() => _MySplashPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _MySplashPageState extends State<MySplashPage> {
+  @override
+  Widget build(BuildContext context) {
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+    return Container(
+      child: Image(
+        image: AssetImage('images/splash.png'),
+        fit: BoxFit.fill,
+      ),
+    );
   }
 
   @override
+  void initState() {
+    // 启动的时候将屏幕设置成全屏模式
+//    SystemChrome.setEnabledSystemUIOverlays([]);
+    super.initState();
+
+
+    Timer(
+        Duration(milliseconds: 300),
+        () => Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (BuildContext context) {
+              print('lao_gao-->_MySplashPageState_initState_}');
+              return MyPubspecPage();
+            })));
+  }
+
+  @override
+  void dispose() {
+    // 关闭的时候将屏幕设置成原来的状态
+//    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    super.dispose();
+  }
+}
+
+/// 使用的第三方在这里进行测试
+class MyPubspecPage extends StatefulWidget {
+  @override
+  _MyPubspecPageState createState() => _MyPubspecPageState();
+}
+
+class _MyPubspecPageState extends State<MyPubspecPage>
+    with WidgetsBindingObserver {
+  StreamController<String> _controller = new StreamController.broadcast();
+
+  int count = 0;
+
+  @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    print('lao_gao--> build');
+    final pluginSdkMap = <String, Function>{
+      "缓存图片框架": (context) => CacheNetworkImage(),
+      "PopupWindow": (context) => PopupWindowPage(),
+      "viewPager": (context) => MyViewPager(),
+      "SliderPage滑动条界面": (context) => SliderPage(),
+      "json解析page": (context) => DataJsonPage(),
+      "dio下载文件": (context) => DownloadFilePage(),
+      "帧动画页面": (context) => ImageAnimationPage(),
+      "权限申请的页面": (context) => AuthorityPage(),
+      "开源video2Chewie页面": (context) => ChewieDemo(),
+      "开源video3页面": (context) => Video4Page(
+            title: '测试4video',
+          ),
+      "开源video5页面": (context) => Video5Page(
+            title: '测试5video',
+          ),
+      "原生的video页面": (context) => VideoPage(),
+      "toast页面": (context) => ToastPage(),
+    };
+
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text('测试第三方框架'),
+        centerTitle: true,
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+//      floatingActionButton: Padding(
+//        padding: const EdgeInsets.only(bottom: 50),
+//        child: Row(
+//          mainAxisAlignment: MainAxisAlignment.end,
+//          children: [
+//            FloatingActionButton(
+//              heroTag: 'b1',
+//              onPressed: () {
+//                if (fastClick()) {
+//                  print('lao_gao-->_MyPubspecPageState_build_22222}');
+//                  return;
+//                }
+//                print('lao_gao-->_MyPubspecPageState_build_11111}');
+//                count++;
+//                switch (count % 4) {
+//                  case 0:
+//                    _controller.add('add');
+//                    break;
+//                  case 1:
+//                    _controller.add('stop');
+//                    break;
+//                  case 2:
+//                    _controller.add('error');
+//                    break;
+//                  case 3:
+//                    _controller.add('complete');
+//                    break;
+//                }
+//              } ,
+//              child: Text('发送'),
+//            ),
+//            FloatingActionButton(
+//              heroTag: 'b2',
+//              onPressed: () {
+//                DownloadStateView.show(
+//                    context: context, stream: _controller.stream);
+//              },
+//              child: Text('显示'),
+//            ),
+//          ],
+//        ),
+//      ),
+      body: Container(
+        child: ListView.separated(
+          itemCount: pluginSdkMap.length,
+          separatorBuilder: (BuildContext context, int index) => Divider(),
+          itemBuilder: (BuildContext context, int index) {
+            var title = pluginSdkMap.keys.toList()[index];
+            return ListTile(
+              title: Text(title),
+              onTap: () {
+                if (pluginSdkMap[title] != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: pluginSdkMap[title]),
+                  );
+                }
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        print('lao_gao--> resumed}');
+        break;
+      case AppLifecycleState.paused:
+        print('lao_gao--> paused}');
+        break;
+      default:
+        break;
+    }
+  }
+
+  @override
+  void initState() {
+//    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    print('lao_gao--> initState');
+    WidgetsBinding.instance.addObserver(this);
+
+    // 这个方法可以在init的时候 去执行 与context相关的UI
+//    SchedulerBinding.instance.addPostFrameCallback((_) {
+//      // fetch data
+////      Navigator.of(context).pushNamed('/');
+//      Toast.show(context: context, message: '444444444fffff');
+//    });
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    print('lao_gao--> didChangeDependencies}');
+
+    super.didChangeDependencies();
+  }
+
+  @override
+  void setState(fn) {
+    print('lao_gao--> setState }');
+    super.setState(fn);
+  }
+
+  @override
+  void didUpdateWidget(MyPubspecPage oldWidget) {
+    print('lao_gao--> didUpdateWidget}');
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void deactivate() {
+    print('lao_gao--> deactivate{}');
+    super.deactivate();
+  }
+
+  @override
+  void dispose() {
+    print('lao_gao--> dispose}');
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+}
+
+class DownloadFilePage extends StatefulWidget {
+  @override
+  _DownloadFilePageState createState() => _DownloadFilePageState();
+}
+
+class _DownloadFilePageState extends State<DownloadFilePage> {
+  final apkUrl = 'https://d-37.winudf.com/custom/com.apkpure.aegon-3171001.apk';
+  final apkUrlWangYi30 =
+      'https://alissl.ucdl.pp.uc.cn/fs08/2020/07/08/10/2_c49c05d635c8c6ef197129791f81621e.apk';
+  final qqUrl88 =
+      'https://alissl.ucdl.pp.uc.cn/fs08/2020/06/17/5/110_38b1fd4b62bc550f5968c7fb160d3b53.apk';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Center(
+      child: Container(
+        child: ListView(
+          children: [
+            DownloadItem(apkUrl, '1'),
+            DownloadItem(apkUrlWangYi30, '2'),
+            DownloadItem(qqUrl88, '3'),
+            RaisedButton(
+              onPressed: () async {
+                final result =
+                    Navigator.push(context, MaterialPageRoute(builder: (_) {
+                  return Center(child: DownloadItem(apkUrl, '1'));
+                }));
+              },
+              child: Text("点击跳转 与1 一致"),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            RaisedButton(
+              onPressed: () {
+                HttpDownloadFile().cancelDownload(apkUrl);
+              },
+              child: Text("取消1"),
+            ),
+            RaisedButton(
+              onPressed: () {
+                HttpDownloadFile().cancelDownload(apkUrlWangYi30);
+              },
+              child: Text("取消2"),
+            ),
+            RaisedButton(
+              onPressed: () {
+                HttpDownloadFile().cancelDownload(qqUrl88);
+              },
+              child: StreamBuilder<Object>(
+                  stream: null,
+                  builder: (context, snapshot) {
+                    return Text("取消3");
+                  }),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    ));
+  }
+}
+
+class DownloadItem extends StatefulWidget {
+  final String url;
+  final String name;
+
+  DownloadItem(this.url, this.name);
+
+  @override
+  _DownloadItemState createState() => _DownloadItemState();
+}
+
+class _DownloadItemState extends State<DownloadItem> {
+  StreamController<DownloadStatus> controller;
+
+  @override
+  void initState() {
+    controller = HttpDownloadFile().getStreamController(widget.url);
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<DownloadStatus>(
+        stream: controller?.stream,
+        builder: (context, snapshot) {
+          Widget child = getWidget(snapshot);
+          return RaisedButton(
+            onPressed: () {
+              controller = HttpDownloadFile()
+                  .startDownloadFile(widget.url, "apkpure${widget.name}.apk");
+              print('lao_gao-->sss ${controller}');
+              setState(() {});
+            },
+            child: child,
+          );
+        });
+  }
+
+  Widget getWidget(AsyncSnapshot<DownloadStatus> snapshot) {
+    print('lao_gao-->222 ${snapshot}');
+    if (snapshot.data == null || snapshot.data.dddd == Dddd.init) {
+      return Row(
+        children: [
+          Text("点击下载${widget.name}"),
+        ],
+      );
+    } else if (snapshot.data.dddd == Dddd.complete) {
+      return Row(
+        children: [
+          Text("下载完成${widget.name}"),
+        ],
+      );
+    } else if (snapshot.data.dddd == Dddd.cancel) {
+      return Row(
+        children: [
+          Text("已取消下载${widget.name}"),
+        ],
+      );
+    } else if (snapshot.data.dddd == Dddd.loading) {
+      return Row(
+        children: [
+          Text("下载中${widget.name}"),
+          CircularProgressIndicator(
+            value: snapshot.data.progress,
+          ),
+        ],
+      );
+    }
+    return Center();
+  }
+}
+
+class CacheNetworkImage extends StatefulWidget {
+  @override
+  _CacheNetworkImageState createState() => _CacheNetworkImageState();
+}
+
+class _CacheNetworkImageState extends State<CacheNetworkImage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        alignment: Alignment.center,
+        child: Column(
+          children: [
+            Expanded(
+              child: CachedNetworkImage(
+                imageUrl: "http://via.placeholder.com/350x150",
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
+            ),
+            Expanded(child: Image.asset("images/1.webp")),
+            Expanded(
+                child: Image(
+                    fit: BoxFit.cover, image: CacheImage("images/9.png"))),
+            Expanded(
+              child: CachedNetworkImage(
+                imageUrl:
+                    "http://pic.616pic.com/bg_w1180/00/10/43/CnJ5y84QFt.jpg",
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class MyViewPager extends StatefulWidget {
+  @override
+  _MyViewPagerState createState() => _MyViewPagerState();
+}
+
+class _MyViewPagerState extends State<MyViewPager> {
+  // 当前图片的位置
+  int _current = 0;
+  int length = 9;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: PreloadPageView.builder(
+                itemCount: 9,
+                physics: AlwaysScrollableScrollPhysics(),
+                preloadPagesCount: 5,
+                onPageChanged: (index) {
+                  setState(() {
+                    _current = index;
+                  });
+                  print('page changed. current: $index');
+                },
+                itemBuilder: (BuildContext context, int index) {
+                  return Image.asset(
+                    'images/tutorial/${index + 1}.webp',
+                    fit: BoxFit.fitHeight,
+                  );
+                }),
+          ),
+
+          // 底部指示器
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(length, (index) {
+                  return Container(
+                    width: 8.0,
+                    height: 8.0,
+                    margin:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: _current == index ? Colors.white : Colors.grey,
+                    ),
+                  );
+                }),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DataJsonPage extends StatefulWidget {
+  @override
+  _DataJsonPageState createState() => _DataJsonPageState();
+}
+
+class _DataJsonPageState extends State<DataJsonPage> {
+  @override
+  Widget build(BuildContext context) {
+//    var recommendList = RecommendApps.recommendAppListFromJson(Constant.dataJson["data"]);
+
+//    print("laogao--> ${recommendList.length} \n  ${recommendList.toString()}");
+
+    return Container(
+      child: Text("dsadas"),
     );
   }
 }
