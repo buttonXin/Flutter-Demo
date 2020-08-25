@@ -59,23 +59,36 @@ class _PopupWindowPageState extends State<PopupWindowPage> {
             // 自定义的
             _buildRow(
                 'my_dropdown_button',
-                CustomDropdownButton(
-                  underline: Container(),
-                  onChanged: (String newValue) {
-                    setState(() {
-                      _selectSleepTime = newValue;
-                    });
-                  },
-                  icon: Icon(_selectClick
-                      ? Icons.keyboard_arrow_down
-                      : Icons.keyboard_arrow_up),
-                  value: _selectSleepTime,
-                  items: items.map<DropdownMenuItem<String>>((dynamic value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
+                // ButtonTheme 的alignedDropdown属性让CustomDropdownButton下拉出现的宽度与外面的一致。
+                ButtonTheme(
+                  alignedDropdown: true,
+                  child: CustomDropdownButton(
+                    width: 130,
+                    decoration: const BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(50),
+                      ),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
+                    dropdownHeight: 10,
+                    underline: Container(),
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    iconClick: const Icon(Icons.keyboard_arrow_up),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        _selectSleepTime = newValue;
+                      });
+                    },
+                    value: _selectSleepTime,
+                    items: items.map<DropdownMenuItem<String>>((dynamic value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
                 )),
           ],
         ));
@@ -83,6 +96,7 @@ class _PopupWindowPageState extends State<PopupWindowPage> {
 
   Widget _buildRow(String text, Widget child) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [Text(text), child],
     );
