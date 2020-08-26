@@ -1,5 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_github_demo/widget/video/custom_controls.dart';
 import 'package:video_player/video_player.dart';
 
 class ChewieDemo extends StatefulWidget {
@@ -34,7 +35,7 @@ class _ChewieDemoState extends State<ChewieDemo> {
       // Try playing around with some of these other options:
 
 //       showControls: false,
-//      customControls: Text('data',style: TextStyle(fontSize: 30,color: Colors.white),)
+      customControls: CustomControls(),
       materialProgressColors: ChewieProgressColors(
         playedColor: Colors.lightGreen,
 //         handleColor: Colors.blue,
