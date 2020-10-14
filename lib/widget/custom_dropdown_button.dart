@@ -24,7 +24,8 @@ class _DropdownMenuPainter extends CustomPainter {
     // configuration in the paint() function and you must provide some sort
     // of onChanged callback here.
     color: color,
-    borderRadius: BorderRadius.circular(2.0),
+    // 这里是最外层的圆角的配置
+    borderRadius: BorderRadius.circular(6),
     boxShadow: kElevationToShadow[elevation],
   ).createBoxPainter(),
         super(repaint: resize);

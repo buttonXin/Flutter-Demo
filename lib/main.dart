@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cache_image/cache_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_github_demo/page/transparent_page.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 
 import 'page/authority_page.dart';
@@ -87,23 +86,23 @@ class _MyPubspecPageState extends State<MyPubspecPage>
   Widget build(BuildContext context) {
     print('lao_gao--> build');
     final pluginSdkMap = <String, Function>{
-     "缓存图片框架": (context) => CacheNetworkImage(),
-     "PopupWindow": (context) => PopupWindowPage(),
-     "viewPager": (context) => MyViewPager(),
-     "SliderPage滑动条界面": (context) => SliderPage(),
-     "json解析page": (context) => DataJsonPage(),
-     "dio下载文件": (context) => DownloadFilePage(),
-     "帧动画页面": (context) => ImageAnimationPage(),
-     "权限申请的页面": (context) => AuthorityPage(),
-     "开源video2Chewie页面": (context) => ChewieDemo(),
-     "开源video3页面": (context) => Video4Page(
-           title: '测试4video',
-         ),
-     "开源video5页面": (context) => Video5Page(
-           title: '测试5video',
-         ),
-     "原生的video页面": (context) => VideoPage(),
-     "toast页面": (context) => ToastPage(),
+      "缓存图片框架": (context) => CacheNetworkImage(),
+      "PopupWindow": (context) => PopupWindowPage(),
+      "viewPager": (context) => MyViewPager(),
+      "SliderPage滑动条界面": (context) => SliderPage(),
+      "json解析page": (context) => DataJsonPage(),
+      "dio下载文件": (context) => DownloadFilePage(),
+      "帧动画页面": (context) => ImageAnimationPage(),
+      "权限申请的页面": (context) => AuthorityPage(),
+      "开源video2Chewie页面": (context) => ChewieDemo(),
+      "开源video3页面": (context) => Video4Page(
+            title: '测试4video',
+          ),
+      "开源video5页面": (context) => Video5Page(
+            title: '测试5video',
+          ),
+      "原生的video页面": (context) => VideoPage(),
+      "toast页面": (context) => ToastPage(),
     };
 
     return Scaffold(
@@ -111,48 +110,6 @@ class _MyPubspecPageState extends State<MyPubspecPage>
         title: Text('测试第三方框架'),
         centerTitle: true,
       ),
-//      floatingActionButton: Padding(
-//        padding: const EdgeInsets.only(bottom: 50),
-//        child: Row(
-//          mainAxisAlignment: MainAxisAlignment.end,
-//          children: [
-//            FloatingActionButton(
-//              heroTag: 'b1',
-//              onPressed: () {
-//                if (fastClick()) {
-//                  print('lao_gao-->_MyPubspecPageState_build_22222}');
-//                  return;
-//                }
-//                print('lao_gao-->_MyPubspecPageState_build_11111}');
-//                count++;
-//                switch (count % 4) {
-//                  case 0:
-//                    _controller.add('add');
-//                    break;
-//                  case 1:
-//                    _controller.add('stop');
-//                    break;
-//                  case 2:
-//                    _controller.add('error');
-//                    break;
-//                  case 3:
-//                    _controller.add('complete');
-//                    break;
-//                }
-//              } ,
-//              child: Text('发送'),
-//            ),
-//            FloatingActionButton(
-//              heroTag: 'b2',
-//              onPressed: () {
-//                DownloadStateView.show(
-//                    context: context, stream: _controller.stream);
-//              },
-//              child: Text('显示'),
-//            ),
-//          ],
-//        ),
-//      ),
       body: Container(
         child: ListView.separated(
           itemCount: pluginSdkMap.length,
@@ -165,9 +122,7 @@ class _MyPubspecPageState extends State<MyPubspecPage>
                 if (pluginSdkMap[title] != null) {
                   Navigator.push(
                     context,
-                    PageRouteBuilder(
-                        opaque: false,
-                        pageBuilder: pluginSdkMap[title]),
+                    MaterialPageRoute(builder: pluginSdkMap[title]),
                   );
                 }
               },
