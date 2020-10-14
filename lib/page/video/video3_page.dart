@@ -23,7 +23,9 @@ class _ChewieDemoState extends State<ChewieDemo> {
   @override
   void initState() {
     super.initState();
-    _videoPlayerController1 = VideoPlayerController.asset('images/lgu_tutorial_0731.mp4');
+//    _videoPlayerController1 = VideoPlayerController.asset('android/app/src/main/assets/Tutorial_EN_v0.6.mp4');
+    _videoPlayerController1 =
+        VideoPlayerController.asset('images/lgu_tutorial_0731.mp4');
 //        'http://jzvd.nathen.cn/c6e3dc12a1154626b3476d9bf3bd7266/6b56c5f0dc31428083757a45764763b0-5287d2089db37e62345123a1be272f8b.mp4');
     _videoPlayerController2 = VideoPlayerController.network(
         'https://www.sample-videos.com/video123/mp4/480/asdasdas.mp4');
@@ -35,7 +37,13 @@ class _ChewieDemoState extends State<ChewieDemo> {
       // Try playing around with some of these other options:
 
 //       showControls: false,
-      customControls: CustomControls(),
+      customControls: CustomControls(
+          bottomBgColor: Colors.white24,
+          playIcon: Image.asset(
+            'images/play_video.png',
+            width: 32,
+            height: 32,
+          )),
       materialProgressColors: ChewieProgressColors(
         playedColor: Colors.lightGreen,
 //         handleColor: Colors.blue,
@@ -68,13 +76,13 @@ class _ChewieDemoState extends State<ChewieDemo> {
         brightness: Brightness.dark,
         primaryColor: Color(0xFF25252E),
         scaffoldBackgroundColor: Color(0xFF25252E),
-        dividerColor: Color(0xFF141414),),
+        dividerColor: Color(0xFF141414),
+      ),
       home: WillPopScope(
         // ignore: missing_return
         onWillPop: () async {
-          if(_chewieController!= null ){
+          if (_chewieController != null) {
             _chewieController.exitFullScreen();
-
           }
         },
         child: Scaffold(
@@ -90,8 +98,6 @@ class _ChewieDemoState extends State<ChewieDemo> {
                   ),
                 ),
               ),
-
-
             ],
           ),
         ),

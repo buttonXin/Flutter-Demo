@@ -7,8 +7,18 @@ import 'package:video_player/video_player.dart';
 import 'material_progress_bar.dart';
 
 class CustomControls extends StatefulWidget {
-  final Color color;
-  const CustomControls({Key key,this.color}) : super(key: key);
+  // 进度条背景的颜色，默认透明
+  final Color bottomBgColor;
+  final Widget playIcon;
+
+  const CustomControls(
+      {Key key,
+      this.bottomBgColor = Colors.transparent,
+      this.playIcon = const Icon(
+        Icons.play_arrow,
+        color: Colors.white,
+      )})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -59,7 +69,7 @@ class _CustomControlsState extends State<CustomControls> {
           absorbing: _hideStuff,
           child: Container(
             // 点击后，显示的进度条等半透明背景颜色
-            color: _hideStuff ? Colors.transparent : Color(0x54000000),
+            color: _hideStuff ? Colors.transparent : Colors.green,
             child: Column(
               children: <Widget>[
                 _latestValue != null &&
@@ -119,7 +129,7 @@ class _CustomControlsState extends State<CustomControls> {
       duration: Duration(milliseconds: 300),
       child: Container(
         height: barHeight,
-        color: Colors.transparent,
+        color: widget.bottomBgColor,
         child: Row(
           children: <Widget>[
             _buildPlayPause(controller),
@@ -128,7 +138,8 @@ class _CustomControlsState extends State<CustomControls> {
                 : _buildPosition(iconColor),
             chewieController.isLive ? const SizedBox() : _buildProgressBar(),
             chewieController.allowMuting
-                ? _buildMuteButton(controller)
+//                ? _buildMuteButton(controller)
+                ? Container()
                 : Container(),
             chewieController.allowFullScreen
                 ? _buildExpandButton()
@@ -186,7 +197,7 @@ class _CustomControlsState extends State<CustomControls> {
           }
         },
         child: Container(
-          color: Colors.red.withOpacity(0.6),
+          color: Colors.red,
           child: Center(
             child: AnimatedOpacity(
               opacity:
@@ -200,15 +211,10 @@ class _CustomControlsState extends State<CustomControls> {
 //                    color: Theme.of(context).dialogBackgroundColor,
 //                    borderRadius: BorderRadius.circular(48.0),
 //                  ),
-                  color: Colors.transparent,
+//                color: Colors.transparent,
                   child: Padding(
                     padding: EdgeInsets.all(12.0),
-//                    child: Icon(Icons.play_arrow, size: 32.0),
-                    child: Image.asset(
-                      'images/play_video.png',
-                      width: 32,
-                      height: 32,
-                    ),
+                    child: widget.playIcon,
                   ),
                 ),
               ),

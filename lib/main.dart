@@ -3,22 +3,19 @@ import 'dart:async';
 import 'package:cache_image/cache_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_github_demo/page/transparent_page.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 
-import 'page/ToastPage.dart';
 import 'page/authority_page.dart';
 import 'page/image_animation_page.dart';
 import 'page/popup_window_page.dart';
 import 'page/slider_page.dart';
+import 'page/toast_page.dart';
 import 'page/video/video2_page.dart';
 import 'page/video/video3_page.dart';
 import 'page/video/video4_page.dart';
 import 'page/video/video5_page.dart';
-import 'util/fast_click.dart';
 import 'util/http_download_file.dart';
-import 'widget/download_state_view.dart';
-
-
 
 void main() {
   runApp(MyApp());
@@ -30,7 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: MySplashPage(),
+      home: MyPubspecPage(),
     );
   }
 }
@@ -43,7 +40,6 @@ class MySplashPage extends StatefulWidget {
 class _MySplashPageState extends State<MySplashPage> {
   @override
   Widget build(BuildContext context) {
-
     return Container(
       child: Image(
         image: AssetImage('images/splash.png'),
@@ -57,7 +53,6 @@ class _MySplashPageState extends State<MySplashPage> {
     // 启动的时候将屏幕设置成全屏模式
 //    SystemChrome.setEnabledSystemUIOverlays([]);
     super.initState();
-
 
     Timer(
         Duration(milliseconds: 300),
@@ -92,23 +87,23 @@ class _MyPubspecPageState extends State<MyPubspecPage>
   Widget build(BuildContext context) {
     print('lao_gao--> build');
     final pluginSdkMap = <String, Function>{
-      "缓存图片框架": (context) => CacheNetworkImage(),
-      "PopupWindow": (context) => PopupWindowPage(),
-      "viewPager": (context) => MyViewPager(),
-      "SliderPage滑动条界面": (context) => SliderPage(),
-      "json解析page": (context) => DataJsonPage(),
-      "dio下载文件": (context) => DownloadFilePage(),
-      "帧动画页面": (context) => ImageAnimationPage(),
-      "权限申请的页面": (context) => AuthorityPage(),
-      "开源video2Chewie页面": (context) => ChewieDemo(),
-      "开源video3页面": (context) => Video4Page(
-            title: '测试4video',
-          ),
-      "开源video5页面": (context) => Video5Page(
-            title: '测试5video',
-          ),
-      "原生的video页面": (context) => VideoPage(),
-      "toast页面": (context) => ToastPage(),
+     "缓存图片框架": (context) => CacheNetworkImage(),
+     "PopupWindow": (context) => PopupWindowPage(),
+     "viewPager": (context) => MyViewPager(),
+     "SliderPage滑动条界面": (context) => SliderPage(),
+     "json解析page": (context) => DataJsonPage(),
+     "dio下载文件": (context) => DownloadFilePage(),
+     "帧动画页面": (context) => ImageAnimationPage(),
+     "权限申请的页面": (context) => AuthorityPage(),
+     "开源video2Chewie页面": (context) => ChewieDemo(),
+     "开源video3页面": (context) => Video4Page(
+           title: '测试4video',
+         ),
+     "开源video5页面": (context) => Video5Page(
+           title: '测试5video',
+         ),
+     "原生的video页面": (context) => VideoPage(),
+     "toast页面": (context) => ToastPage(),
     };
 
     return Scaffold(
@@ -170,7 +165,9 @@ class _MyPubspecPageState extends State<MyPubspecPage>
                 if (pluginSdkMap[title] != null) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: pluginSdkMap[title]),
+                    PageRouteBuilder(
+                        opaque: false,
+                        pageBuilder: pluginSdkMap[title]),
                   );
                 }
               },

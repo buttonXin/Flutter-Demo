@@ -58,6 +58,8 @@ dependencies:
   chewie: ^0.9.10
   #  视频组件3
   videos_player: ^0.1.3
+  # 播放电话、sms、email
+  url_launcher: ^3.0.3
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +80,7 @@ flutter:
   # assets:
   assets:
     - images/
+    - images/data/
     - images/anim/
     - images/tutorial/
 
