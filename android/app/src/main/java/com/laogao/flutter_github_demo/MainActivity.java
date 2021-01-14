@@ -12,12 +12,12 @@ import io.flutter.embedding.android.SplashScreen;
 
 public class MainActivity extends FlutterActivity {
 
-    @Nullable
-    @Override
-    public SplashScreen provideSplashScreen() {
-        Log.e("lao_gao", "provideSplashScreen: 11");
-        return new  SimpleSplashScreen();
-    }
+//    @Nullable
+//    @Override
+//    public SplashScreen provideSplashScreen() {
+//        Log.e("lao_gao", "provideSplashScreen: 11");
+//        return new  SimpleSplashScreen();
+//    }
 
 
     @Override

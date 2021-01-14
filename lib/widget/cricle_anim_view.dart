@@ -208,12 +208,9 @@ class _ScaleTransitionExampleState extends State<ScaleTransitionExample>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        _animationController.duration= Duration(milliseconds: 300);
+      onTapDown: (_){
+        _animationController.duration= const Duration(milliseconds: 300);
         _animationController.forward();
-      },
-      onDoubleTap: () {
-
       },
       child: Container(
         margin: EdgeInsets.all(_animation.value),

@@ -18,13 +18,13 @@ class HttpDownloadFile {
   }
 
   Map<String, List<StreamController<double>>> _mapStream = {};
-  Map<String, StreamController<DownloadStatus>> _mapStream222 = {};
+  Map<String, StreamController<DownloadResult>> _mapStream222 = {};
 
   ///同一个CancelToken可以用于多个请求，
   ///当一个CancelToken取消时，所有使用该CancelToken的请求都会被取消
   Map<String, CancelToken> _cancelTokens = Map<String, CancelToken>();
-  Map<String, DownloadStatus> _mapDownloadStatus =
-      Map<String, DownloadStatus>();
+  Map<String, DownloadResult> _mapDownloadStatus =
+      Map<String, DownloadResult>();
 
   void addStreamController(String url, StreamController controller) {
     if (_mapStream[url] == null) {
@@ -47,9 +47,9 @@ class HttpDownloadFile {
   StreamController startDownloadFile(String url, String fileNameApk) {
     if (_mapStream222[url] == null) {
       _mapStream222[url] = StreamController.broadcast()
-        ..add(DownloadStatus()..dddd = Dddd.init);
+        ..add(DownloadResult()..downloadStatus = DownloadStatus.init);
       _cancelTokens[url] = CancelToken();
-      _mapDownloadStatus[url] = DownloadStatus();
+      _mapDownloadStatus[url] = DownloadResult();
 
       _dioDownloadFile(url, fileNameApk);
     }
@@ -85,13 +85,13 @@ class HttpDownloadFile {
 
       final response = await _dio.download(url, dirFile,
           cancelToken: cancelToken, onReceiveProgress: (int count, int total) {
-
         final mapDownloadStatus = _mapDownloadStatus[url];
         mapDownloadStatus.progress = count / total;
         if (mapDownloadStatus.progress == 1) {
-          mapDownloadStatus.dddd = Dddd.complete;
+          mapDownloadStatus.downloadStatus = DownloadStatus.complete;
+          mapDownloadStatus.fileName = dirFile;
         } else {
-          mapDownloadStatus.dddd = Dddd.loading;
+          mapDownloadStatus.downloadStatus = DownloadStatus.loading;
         }
         _mapStream222[url].add(mapDownloadStatus);
       });
@@ -101,10 +101,9 @@ class HttpDownloadFile {
       if (CancelToken.isCancel(e)) {
         print('lao_gao--> ${e.message}');
 
-        final StreamController<DownloadStatus> streamController =
+        final StreamController<DownloadResult> streamController =
             _mapStream222[e.message];
         if (streamController != null && !streamController.isClosed) {
-
           streamController.close();
           _mapStream222.remove(e.message);
         }
@@ -115,28 +114,29 @@ class HttpDownloadFile {
   }
 
   /// 如果当前的view需要下载的回调，则通过传入对应的url来获取StreamController
-  StreamController<DownloadStatus> getStreamController(String url) {
+  StreamController<DownloadResult> getStreamController(String url) {
     return _mapStream222[url];
   }
 
   void cancelDownload(String url) {
     _cancelTokens[url]?.cancel(url);
     _cancelTokens.remove(url);
-    final StreamController<DownloadStatus> streamController = _mapStream222[url];
-    streamController.add(_mapDownloadStatus[url]..dddd = Dddd.cancel);
+    final StreamController<DownloadResult> streamController =
+        _mapStream222[url];
+    streamController.add(_mapDownloadStatus[url]..downloadStatus = DownloadStatus.cancel);
   }
 }
 
-enum Dddd {
+enum DownloadStatus {
   init,
   loading,
   complete,
   cancel,
 }
 
-class DownloadStatus {
+class DownloadResult {
   double progress = 0;
-  Dddd dddd;
+  DownloadStatus downloadStatus;
+  String fileName;
 
-  DownloadStatus();
 }

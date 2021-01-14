@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:flutter_github_demo/widget/cricle_anim_view.dart';
 
 class SliderPage extends StatefulWidget {
@@ -7,8 +8,43 @@ class SliderPage extends StatefulWidget {
 }
 
 class _SliderPageState extends State<SliderPage> with TickerProviderStateMixin {
-  double _value = 0;
+  double _value = 35;
   int _dollars = 20;
+
+  GifController _gifController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _gifController = GifController(vsync: this);
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _gifController.repeat(min:0,max:29,period:const Duration(milliseconds: 2000));
+      // jumpTo thrid frame(index from 0)
+      // _gifController.value = 0;
+    });
+
+
+
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 2));
+
+    _animation =
+        CurvedAnimation(parent: _animationController, curve: Curves.linear);
+
+    _animationController.addStatusListener((status) {
+      if (status == AnimationStatus.dismissed) {
+        print('lao_gao-->_SliderPageState_initState_11}');
+        _animationController.forward();
+      } else if (status == AnimationStatus.completed) {
+        print('lao_gao-->_SliderPageState_initState_222}');
+        Future.delayed(Duration(milliseconds: 500), () {
+          _animationController.reset();
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,22 +58,21 @@ class _SliderPageState extends State<SliderPage> with TickerProviderStateMixin {
           ),
           Slider(
             value: _value,
-            onChanged: (newValue) {
-              print('onChanged:$newValue');
+            min: 0,
+            max: 100,
+            divisions: 100,
+            onChanged: (double newValue) {
               setState(() {
                 _value = newValue;
               });
             },
-            onChangeStart: (startValue) {
-              print('onChangeStart:$startValue');
+            onChangeEnd: (double endValue) {
+              print('onChangeEnd:${endValue.round()}');
+              //这里进行保存
             },
-            onChangeEnd: (endValue) {
-              print('onChangeEnd:$endValue');
-            },
-            label: '$_value dollars',
-            divisions: 5,
-            semanticFormatterCallback: (newValue) {
-              return '${newValue.round()} dollars';
+            label: '${_value.round()}%',
+            semanticFormatterCallback: (double newValue) {
+              return '${newValue.round()} ';
             },
           ),
           Slider(
@@ -62,7 +97,10 @@ class _SliderPageState extends State<SliderPage> with TickerProviderStateMixin {
               },
               child: AnimatedUpArrow(animation: _animation)),
           Text('data'),
-
+          GifImage(
+            controller: _gifController,
+            image: AssetImage("images/animate.gif"),
+          ),
           Spacer(),
           Container(
             width: 200,
@@ -85,27 +123,4 @@ class _SliderPageState extends State<SliderPage> with TickerProviderStateMixin {
 
   AnimationController _animationController;
   Animation<double> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 2));
-
-    _animation =
-        CurvedAnimation(parent: _animationController, curve: Curves.linear);
-
-    _animationController.addStatusListener((status) {
-      if (status == AnimationStatus.dismissed) {
-        print('lao_gao-->_SliderPageState_initState_11}');
-        _animationController.forward();
-      } else if (status == AnimationStatus.completed) {
-        print('lao_gao-->_SliderPageState_initState_222}');
-        Future.delayed(Duration(milliseconds: 500), () {
-          _animationController.reset();
-        });
-      }
-    });
-  }
 }

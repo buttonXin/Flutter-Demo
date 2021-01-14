@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:cache_image/cache_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_github_demo/page/button_anim_page.dart';
+import 'package:flutter_github_demo/page/download_file_page.dart';
+import 'package:flutter_github_demo/page/other_anim_page.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 
 import 'page/authority_page.dart';
@@ -14,7 +17,6 @@ import 'page/video/video2_page.dart';
 import 'page/video/video3_page.dart';
 import 'page/video/video4_page.dart';
 import 'page/video/video5_page.dart';
-import 'util/http_download_file.dart';
 
 void main() {
   runApp(MyApp());
@@ -89,16 +91,20 @@ class _MyPubspecPageState extends State<MyPubspecPage>
       "缓存图片框架": (context) => CacheNetworkImage(),
       "PopupWindow": (context) => PopupWindowPage(),
       "viewPager": (context) => MyViewPager(),
+      "button动画": (context) => ButtonAnimationPage(),
+      "Otherbutton动画": (context) => ScaleTransitionPage(),
       "SliderPage滑动条界面": (context) => SliderPage(),
       "json解析page": (context) => DataJsonPage(),
       "dio下载文件": (context) => DownloadFilePage(),
       "帧动画页面": (context) => ImageAnimationPage(),
       "权限申请的页面": (context) => AuthorityPage(),
       "开源video2Chewie页面": (context) => ChewieDemo(),
-      "开源video3页面": (context) => Video4Page(
+      "开源video3页面": (context) =>
+          Video4Page(
             title: '测试4video',
           ),
-      "开源video5页面": (context) => Video5Page(
+      "开源video5页面": (context) =>
+          Video5Page(
             title: '测试5video',
           ),
       "原生的video页面": (context) => VideoPage(),
@@ -141,6 +147,12 @@ class _MyPubspecPageState extends State<MyPubspecPage>
         break;
       case AppLifecycleState.paused:
         print('lao_gao--> paused}');
+        break;
+      case AppLifecycleState.detached:
+        print('lao_gao--> detached}');
+        break;
+      case AppLifecycleState.inactive:
+        print('lao_gao--> inactive}');
         break;
       default:
         break;
@@ -193,145 +205,8 @@ class _MyPubspecPageState extends State<MyPubspecPage>
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
+
 }
-
-class DownloadFilePage extends StatefulWidget {
-  @override
-  _DownloadFilePageState createState() => _DownloadFilePageState();
-}
-
-class _DownloadFilePageState extends State<DownloadFilePage> {
-  final apkUrl = 'https://d-37.winudf.com/custom/com.apkpure.aegon-3171001.apk';
-  final apkUrlWangYi30 =
-      'https://alissl.ucdl.pp.uc.cn/fs08/2020/07/08/10/2_c49c05d635c8c6ef197129791f81621e.apk';
-  final qqUrl88 =
-      'https://alissl.ucdl.pp.uc.cn/fs08/2020/06/17/5/110_38b1fd4b62bc550f5968c7fb160d3b53.apk';
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-      child: Container(
-        child: ListView(
-          children: [
-            DownloadItem(apkUrl, '1'),
-            DownloadItem(apkUrlWangYi30, '2'),
-            DownloadItem(qqUrl88, '3'),
-            RaisedButton(
-              onPressed: () async {
-                final result =
-                    Navigator.push(context, MaterialPageRoute(builder: (_) {
-                  return Center(child: DownloadItem(apkUrl, '1'));
-                }));
-              },
-              child: Text("点击跳转 与1 一致"),
-            ),
-            RaisedButton(
-              onPressed: () {
-                HttpDownloadFile().cancelDownload(apkUrl);
-              },
-              child: Text("取消1"),
-            ),
-            RaisedButton(
-              onPressed: () {
-                HttpDownloadFile().cancelDownload(apkUrlWangYi30);
-              },
-              child: Text("取消2"),
-            ),
-            RaisedButton(
-              onPressed: () {
-                HttpDownloadFile().cancelDownload(qqUrl88);
-              },
-              child: StreamBuilder<Object>(
-                  stream: null,
-                  builder: (context, snapshot) {
-                    return Text("取消3");
-                  }),
-            ),
-          ],
-        ),
-      ),
-    ));
-  }
-}
-
-class DownloadItem extends StatefulWidget {
-  final String url;
-  final String name;
-
-  DownloadItem(this.url, this.name);
-
-  @override
-  _DownloadItemState createState() => _DownloadItemState();
-}
-
-class _DownloadItemState extends State<DownloadItem> {
-  StreamController<DownloadStatus> controller;
-
-  @override
-  void initState() {
-    controller = HttpDownloadFile().getStreamController(widget.url);
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<DownloadStatus>(
-        stream: controller?.stream,
-        builder: (context, snapshot) {
-          Widget child = getWidget(snapshot);
-          return RaisedButton(
-            onPressed: () {
-              controller = HttpDownloadFile()
-                  .startDownloadFile(widget.url, "apkpure${widget.name}.apk");
-              print('lao_gao-->sss ${controller}');
-              setState(() {});
-            },
-            child: child,
-          );
-        });
-  }
-
-  Widget getWidget(AsyncSnapshot<DownloadStatus> snapshot) {
-    print('lao_gao-->222 ${snapshot}');
-    if (snapshot.data == null || snapshot.data.dddd == Dddd.init) {
-      return Row(
-        children: [
-          Text("点击下载${widget.name}"),
-        ],
-      );
-    } else if (snapshot.data.dddd == Dddd.complete) {
-      return Row(
-        children: [
-          Text("下载完成${widget.name}"),
-        ],
-      );
-    } else if (snapshot.data.dddd == Dddd.cancel) {
-      return Row(
-        children: [
-          Text("已取消下载${widget.name}"),
-        ],
-      );
-    } else if (snapshot.data.dddd == Dddd.loading) {
-      return Row(
-        children: [
-          Text("下载中${widget.name}"),
-          CircularProgressIndicator(
-            value: snapshot.data.progress,
-          ),
-        ],
-      );
-    }
-    return Center();
-  }
-}
-
 class CacheNetworkImage extends StatefulWidget {
   @override
   _CacheNetworkImageState createState() => _CacheNetworkImageState();
