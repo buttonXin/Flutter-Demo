@@ -8,6 +8,7 @@ import 'package:flutter_github_demo/page/download_file_page.dart';
 import 'package:flutter_github_demo/page/other_anim_page.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 
+import 'nebula/country_data_page.dart';
 import 'page/authority_page.dart';
 import 'page/image_animation_page.dart';
 import 'page/popup_window_page.dart';
@@ -89,6 +90,7 @@ class _MyPubspecPageState extends State<MyPubspecPage>
     print('lao_gao--> build');
     final pluginSdkMap = <String, Function>{
       "缓存图片框架": (context) => CacheNetworkImage(),
+      "CountryData": (context) => CountryDataPage(),
       "PopupWindow": (context) => PopupWindowPage(),
       "viewPager": (context) => MyViewPager(),
       "button动画": (context) => ButtonAnimationPage(),
