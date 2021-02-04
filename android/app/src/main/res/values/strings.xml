@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">OldHigh</string>
 
 
-<!--    <string name="com_auth0_client_id">cYx4YdHvPiR2P5beMUbbcdNs1MOmlr1a</string>-->
-<!--    <string name="com_auth0_domain">dev-nreal.eu.auth0.com</string>-->
+<!--    <string name="com_auth0_client_id">uINrRS8JysUhZJWd0dxhHiyXGpQmWlg3</string>-->
+<!--    <string name="com_auth0_domain">dev-nreal.us.auth0.com</string>-->
 
-
-   <string name="com_auth0_client_id">uINrRS8JysUhZJWd0dxhHiyXGpQmWlg3</string>
-    <string name="com_auth0_domain">dev-nreal.us.auth0.com</string>
-
-
-    <string name="hint_first_name">create first name</string>
+    <string name="hint_country">create country</string>
     <string name="hint_number">create number</string>
+
+    <string name="lock_header_title">Nebula</string>
+
 
 
 </resources>

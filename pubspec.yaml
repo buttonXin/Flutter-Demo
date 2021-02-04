@@ -64,8 +64,10 @@ dependencies:
   install_plugin: ^2.0.1
   #  加载gif图片
   flutter_gifimage: ^1.0.1
-
-
+  # 时间选择器
+  flutter_datetime_picker: ^1.4.0
+  # 数字选择器
+  numberpicker: ^1.3.0
 
 dev_dependencies:
   flutter_test:

@@ -48,6 +48,11 @@ class _CountryDataPageState extends State<CountryDataPage> {
             onPressed: _Logout,
             child: const Text('Login out'),
           ),
+
+          RaisedButton(
+            onPressed: _updateUserInfo,
+            child: const Text('update user data'),
+          ),
         ],
       ),
     );
@@ -96,6 +101,10 @@ class _CountryDataPageState extends State<CountryDataPage> {
     LoginOutPlugin().login(countryData);
   }
   void _Logout() {
-    LoginOutPlugin().login(countryData);
+    LoginOutPlugin().logout();
+  }
+
+  void _updateUserInfo() {
+    LoginOutPlugin().updateUserInfo();
   }
 }

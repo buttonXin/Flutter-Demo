@@ -3,12 +3,15 @@ import 'dart:async';
 import 'package:cache_image/cache_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_github_demo/base_view_page/base_demo_page1.dart';
+import 'package:flutter_github_demo/base_view_page/sticky_page.dart';
 import 'package:flutter_github_demo/page/button_anim_page.dart';
 import 'package:flutter_github_demo/page/download_file_page.dart';
 import 'package:flutter_github_demo/page/other_anim_page.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 
 import 'nebula/country_data_page.dart';
+import 'nebula/user_info_page.dart';
 import 'page/authority_page.dart';
 import 'page/image_animation_page.dart';
 import 'page/popup_window_page.dart';
@@ -90,7 +93,9 @@ class _MyPubspecPageState extends State<MyPubspecPage>
     print('lao_gao--> build');
     final pluginSdkMap = <String, Function>{
       "缓存图片框架": (context) => CacheNetworkImage(),
+      '个人中心': (context) => UserInfoPage(),
       "CountryData": (context) => CountryDataPage(),
+      "BaseViewDemo1": (context) => StickyPage(),
       "PopupWindow": (context) => PopupWindowPage(),
       "viewPager": (context) => MyViewPager(),
       "button动画": (context) => ButtonAnimationPage(),
@@ -130,7 +135,7 @@ class _MyPubspecPageState extends State<MyPubspecPage>
                 if (pluginSdkMap[title] != null) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: pluginSdkMap[title]),
+                    MaterialPageRoute(builder: pluginSdkMap[title] )
                   );
                 }
               },

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ 项目名：Appstore
+  ~ 作者：lizengfa
+  ~ 类名：network_security_config.xml
+  ~ 包名：/Users/lizengfa/AndroidStudioProjects/Appstore/app/src/main/res/xml/network_security_config.xml
+  ~ 当前修改时间：2019年11月11日 16:31:43
+  ~ 上次修改时间：2019年11月11日 15:12:32
+  ~ Copyright(c) 2019 北京太若科技有限公司 https://www.nreal.ai/
+  -->
+
+<network-security-config>
+
+<!--    <domain-config cleartextTrafficPermitted="false">-->
+<!--        <domain includeSubdomains="true">nrealpointcloud.oss-cn-beijing.aliyuncs.com</domain>-->
+<!--        <domain includeSubdomains="true">47.94.16.13</domain>-->
+<!--    </domain-config>-->
+
+    <!--不能使用http的链接-->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+
+</network-security-config>

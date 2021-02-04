@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+
+    <string name="com_auth0_client_id" tools:ignore="MissingTranslation">uINrRS8JysUhZJWd0dxhHiyXGpQmWlg3</string>
+    <string name="com_auth0_domain" tools:ignore="MissingTranslation">dev-nreal.us.auth0.com</string>
+
+
+    <string name="google_server_client_id" tools:ignore="MissingTranslation">292296921853-br5kh82rg76hf6c2gl1tib15lvv6s2ci.apps.googleusercontent.com</string>
+
+
+    <string name="com_auth0_lock_db_login_error_message" tools:ignore="MissingTranslation">THERE 66666HERE WAS AN ERROR PROCESSING THE SIGN IHERE WAS AN ERROR PROCESSING THE SIGN I</string>
+
+</resources>
+
