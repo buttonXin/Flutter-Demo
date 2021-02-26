@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cache_image/cache_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_github_demo/base_view_page/base_demo_page1.dart';
 import 'package:flutter_github_demo/base_view_page/sticky_page.dart';
 import 'package:flutter_github_demo/page/button_anim_page.dart';
@@ -24,6 +25,9 @@ import 'page/video/video5_page.dart';
 
 void main() {
   runApp(MyApp());
+  //设置Android底部的导航栏透明
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.black));
 }
 
 class MyApp extends StatelessWidget {
@@ -87,6 +91,7 @@ class _MyPubspecPageState extends State<MyPubspecPage>
   StreamController<String> _controller = new StreamController.broadcast();
 
   int count = 0;
+
 
   @override
   Widget build(BuildContext context) {
@@ -172,6 +177,8 @@ class _MyPubspecPageState extends State<MyPubspecPage>
     print('lao_gao--> initState');
     WidgetsBinding.instance.addObserver(this);
 
+    final inMicroseconds2 = const Duration(seconds: 60).inMicroseconds;
+    print('lao_gao-->_MyPubspecPageState_initState_$inMicroseconds2');
     // 这个方法可以在init的时候 去执行 与context相关的UI
 //    SchedulerBinding.instance.addPostFrameCallback((_) {
 //      // fetch data

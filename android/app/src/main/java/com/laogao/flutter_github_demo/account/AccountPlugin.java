@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,10 +18,11 @@ import com.auth0.android.authentication.AuthenticationAPIClient;
 import com.auth0.android.authentication.AuthenticationException;
 import com.auth0.android.authentication.storage.CredentialsManager;
 import com.auth0.android.authentication.storage.CredentialsManagerException;
+import com.auth0.android.authentication.storage.SecureCredentialsManager;
 import com.auth0.android.authentication.storage.SharedPreferencesStorage;
 import com.auth0.android.callback.BaseCallback;
-import com.auth0.android.google.GoogleAuthHandler;
 import com.auth0.android.google.GoogleAuthProvider;
+import com.auth0.android.jwt.JWT;
 import com.auth0.android.lock.AuthenticationCallback;
 import com.auth0.android.lock.Lock;
 import com.auth0.android.lock.LockCallback;
@@ -246,14 +248,27 @@ public class AccountPlugin implements FlutterPlugin, MethodChannel.MethodCallHan
     }
 
     private String accessTokenTemp;
+    Long expiresIn;
     private LockCallback callback = new AuthenticationCallback() {
         @Override
         public void onAuthentication(Credentials credentials) {
             //Authenticated
             if (DEBUG) Log.e("lao_gao_AccountPlugin", "onAuthentication: "
-                    + credentials.getAccessToken()
+                    + " getAccessToken "+credentials.getAccessToken()
+                    + " getIdToken "+credentials.getIdToken()
+                    + " getRefreshToken "+credentials.getRefreshToken()
+
             );
+            expiresIn = credentials.getExpiresIn() * 1000 + SystemClock.elapsedRealtime();
             accessTokenTemp = credentials.getAccessToken();
+            sharedPreferences.edit().putString(SHARED_PREF_KEY_USER_TOKEN, accessTokenTemp).apply();
+
+            Log.e("lao_gao_AccountPlugin", "onAuthentication: "
+                    + " getAccessToken= " + new JWT(credentials.getAccessToken()).getExpiresAt().getTime()
+                    + " getIdToken= " + new JWT(credentials.getIdToken()).getExpiresAt().getTime()
+//                    + " getRefreshToken= " + new JWT(credentials.getRefreshToken()).getExpiresAt().getTime()
+
+            );
             getUserInfo(credentials);
         }
 
@@ -280,7 +295,7 @@ public class AccountPlugin implements FlutterPlugin, MethodChannel.MethodCallHan
         userMap.put(GET_USER, GET_USER);
         usersClient = new UsersAPIClient(getAccount(), credentials.getAccessToken());
         authenticationAPIClient = new AuthenticationAPIClient(getAccount());
-        manager = new CredentialsManager(authenticationAPIClient, new SharedPreferencesStorage(context));
+        manager = new SecureCredentialsManager(context,authenticationAPIClient, new SharedPreferencesStorage(context));
         manager.saveCredentials(credentials);
         authenticationAPIClient.userInfo(credentials.getAccessToken())
                 .start(new BaseCallback<UserProfile, AuthenticationException>() {
@@ -343,7 +358,7 @@ public class AccountPlugin implements FlutterPlugin, MethodChannel.MethodCallHan
                 });
     }
 
-    CredentialsManager manager;
+    SecureCredentialsManager manager;
 
     private void updateUserInfo(Map<String, Object> userMetadata, String accessToken) {
         if (DEBUG) Log.e("lao_gao_AccountPlugin", "updateUserInfo: " + userMetadata.toString());
@@ -353,71 +368,26 @@ public class AccountPlugin implements FlutterPlugin, MethodChannel.MethodCallHan
 //        usersClient = new UsersAPIClient(getAccount(), accessTokenTemp);
         authenticationAPIClient = new AuthenticationAPIClient(getAccount());
 
-        manager = new CredentialsManager(authenticationAPIClient, new SharedPreferencesStorage(context));
+        manager = new SecureCredentialsManager(context,authenticationAPIClient, new SharedPreferencesStorage(context));
 
-        boolean hasValidCredentials = manager.hasValidCredentials();
+
+        boolean hasValidCredentials = manager.hasValidCredentials(60);
         Log.e("lao_gao_AccountPlugin", "updateUserInfo: hasValidCredentials = " + hasValidCredentials);
 
+        boolean timeout = SystemClock.elapsedRealtime() > expiresIn;
+        Log.e("lao_gao_AccountPlugin", "updateUserInfo: " + timeout);
+
+//        _updateUserMetedataInfo(accessToken, userMetadata);
 //        if(hasValidCredentials){
 //
 //        }
+
         manager.getCredentials(new BaseCallback<Credentials, CredentialsManagerException>() {
             @Override
             public void onSuccess(@Nullable Credentials payload) {
-                manager.saveCredentials(payload);
+//                manager.saveCredentials(payload);
 
-
-                authenticationAPIClient.userInfo(payload.getAccessToken())
-                        .start(new BaseCallback<UserProfile, AuthenticationException>() {
-                            @Override
-                            public void onSuccess(UserProfile userinfo) {
-                                if (userinfo == null || TextUtils.isEmpty(userinfo.getId())) {
-                                    postMainThread(() -> {
-                                        userMap.put("error", "userinfo is error");
-                                        events.success(userMap);
-                                    });
-                                    return;
-                                }
-                                usersClient = new UsersAPIClient(getAccount(), payload.getAccessToken());
-                                usersClient.updateMetadata(userinfo.getId(), userMetadata)
-                                        .start(new BaseCallback<UserProfile, ManagementException>() {
-                                            @Override
-                                            public void onSuccess(UserProfile profile) {
-
-                                                // You can react to this, and show the information to the user.
-                                                printUser(profile, "updateUser");
-                                                postMainThread(() -> {
-                                                    userMap.put("success", "success");
-                                                    events.success(userMap);
-                                                });
-                                            }
-
-                                            @Override
-                                            public void onFailure(ManagementException error) {
-                                                // Show error
-                                                if (DEBUG) {
-                                                    Log.e("lao_gao_AccountPlugin", "onFailure: " + error.getMessage());
-                                                }
-                                                postMainThread(() -> {
-                                                    userMap.put("error", error.getMessage());
-                                                    events.success(userMap);
-                                                });
-                                            }
-                                        });
-                            }
-
-                            @Override
-                            public void onFailure(AuthenticationException error) {
-                                // Show error
-                                if (DEBUG) {
-                                    Log.e("lao_gao_MainActivity", "onFailure222: " + error.getMessage());
-                                }
-                                postMainThread(() -> {
-                                    userMap.put("error", error.getMessage());
-                                    events.success(userMap);
-                                });
-                            }
-                        });
+                _updateUserMetedataInfo(payload.getAccessToken(), userMetadata);
             }
 
             @Override
@@ -425,6 +395,65 @@ public class AccountPlugin implements FlutterPlugin, MethodChannel.MethodCallHan
 
             }
         });
+    }
+
+    private void _updateUserMetedataInfo(String accessToken, Map<String, Object> userMetadata) {
+        authenticationAPIClient.userInfo(accessToken)
+                .start(new BaseCallback<UserProfile, AuthenticationException>() {
+                    @Override
+                    public void onSuccess(UserProfile userinfo) {
+                        if (userinfo == null || TextUtils.isEmpty(userinfo.getId())) {
+                            postMainThread(() -> {
+                                userMap.put("error", "userinfo is error");
+                                events.success(userMap);
+                            });
+                            return;
+                        }
+                        usersClient = new UsersAPIClient(getAccount(), accessToken);
+                        usersClient.updateMetadata(userinfo.getId(), userMetadata)
+                                .start(new BaseCallback<UserProfile, ManagementException>() {
+                                    @Override
+                                    public void onSuccess(UserProfile profile) {
+
+                                        // You can react to this, and show the information to the user.
+                                        printUser(profile, "updateUser");
+                                        postMainThread(() -> {
+                                            userMap.put("success", "success");
+                                            events.success(userMap);
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onFailure(ManagementException error) {
+                                        // Show error
+                                        if (DEBUG) {
+                                            Log.e("lao_gao_AccountPlugin", "onFailure: " + error.getMessage());
+                                        }
+                                        postMainThread(() -> {
+                                            userMap.put("error", error.getMessage());
+                                            events.success(userMap);
+                                        });
+                                    }
+                                });
+                    }
+
+                    @Override
+                    public void onFailure(AuthenticationException error) {
+                        // Show error
+                        if (DEBUG) {
+                            Log.e("lao_gao_AccountPlugin", "onFailure: " + error.getCode()
+                                    + "  " + error.getDescription()
+                                    + "  " + error.getStatusCode()
+
+                            );
+                            Log.e("lao_gao_MainActivity", "onFailure222: " + error.getMessage());
+                        }
+                        postMainThread(() -> {
+                            userMap.put("error", error.getMessage());
+                            events.success(userMap);
+                        });
+                    }
+                });
     }
 
 
