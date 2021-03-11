@@ -5,6 +5,9 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_github_demo/nebula/view/base_view.dart';
 import 'package:flutter_github_demo/widget/custom_dropdown_button.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'custom_data_picker_model.dart';
 
 class UserInfoPage extends StatefulWidget {
   @override
@@ -16,7 +19,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
   // 出生时间
   DateTime _dateBirthTime = DateTime(
-      DateTime.now().year - 16, DateTime.now().month, DateTime.now().day);
+      DateTime.now().year, DateTime.now().month, DateTime.now().day - 1);
 
   // 生日时间是否允许
   bool _birthAllow = true;
@@ -47,7 +50,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
           child: Column(
             // scrollDirection: Axis.vertical,
             children: [
-
               buildTopBackView(context),
               const SizedBox(height: 20),
               // 头像
@@ -94,24 +96,38 @@ class _UserInfoPageState extends State<UserInfoPage> {
   }
 
   Widget _buildAvatar() {
-    return Container(
-      height: 50,
-      alignment: Alignment.center,
-      child: CachedNetworkImage(
-        imageUrl:
-            'https://nreal-public.nreal.ai/android/nebula/icon/ai.nreal.nrealtower.png',
-        // placeholder: (BuildContext context, String str) {
-        //   return const CircleAvatar(
-        //     backgroundImage: AssetImage('/images/tutorial/1.webp'),
-        //     radius: 25,
-        //   );
-        // },
-        imageBuilder: (BuildContext context, ImageProvider imageProvider) {
-          return CircleAvatar(
-            backgroundImage: imageProvider,
-            radius: 25,
-          );
-        },
+    return GestureDetector(
+      onTap: () async {
+        // const String url = 'https://nreal-public.nreal.ai/android/nebula/ai_nreal_nebula_jp_xperia.apk';
+        const String url =
+            'https://nreal-public.nreal.ai/android/nebula/icon/11.html';
+        // const String url = 'https://dl-tc.coolapkmarket.com/down/apk_file/2021/0309/aweme_douyin_and134_v1015_140902_d292_1615224769.apk?t=1615385877&sign=15e83a49756dec82c59dc3de06b293e9';
+        // const String url = 'https://www.nreal.ai/page-data/nebula/page-data.json';
+        if (await canLaunch(url)) {
+          await launch(url);
+        } else {
+          throw 'Could not launch $url';
+        }
+      },
+      child: Container(
+        height: 50,
+        alignment: Alignment.center,
+        child: CachedNetworkImage(
+          imageUrl:
+              'https://nreal-public.nreal.ai/android/nebula/icon/ai.nreal.nrealtower.png',
+          // placeholder: (BuildContext context, String str) {
+          //   return const CircleAvatar(
+          //     backgroundImage: AssetImage('/images/tutorial/1.webp'),
+          //     radius: 25,
+          //   );
+          // },
+          imageBuilder: (BuildContext context, ImageProvider imageProvider) {
+            return CircleAvatar(
+              backgroundImage: imageProvider,
+              radius: 25,
+            );
+          },
+        ),
       ),
     );
   }
@@ -365,30 +381,39 @@ class _UserInfoPageState extends State<UserInfoPage> {
   }
 
   void _showDateBirth() {
-    DatePicker.showDatePicker(context,
-        showTitleActions: true,
-        locale: LocaleType.en,
-        minTime: DateTime(1900, 1, 1),
-        maxTime: DateTime.now(),
-        onChanged: (DateTime date) {}, onConfirm: (DateTime date) {
-      final DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(date.millisecondsSinceEpoch);
-      print('confirm $dateTime    $date');
-      print('lao_gao-->_UserInfoPageState__showDateBirth_${date.millisecondsSinceEpoch}');
+    DatePicker.showPicker(
+      context,
+      showTitleActions: true,
+      locale: LocaleType.en,
+      pickerModel: CustomPicker(
+          minTime: DateTime(1900, 1, 1),
+          maxTime: DateTime.now(),
+          currentTime: _dateBirthTime,
+          locale: LocaleType.en),
+      onChanged: (DateTime date) {
+        setState(() {});
+      },
+      onConfirm: (DateTime date) {
+        final DateTime dateTime =
+            DateTime.fromMillisecondsSinceEpoch(date.millisecondsSinceEpoch);
+        print('confirm $dateTime    $date');
+        print(
+            'lao_gao-->_UserInfoPageState__showDateBirth_${date.millisecondsSinceEpoch}');
 
+        final DateTime allowDateTime = DateTime(
+            DateTime.now().year - 16, DateTime.now().month, DateTime.now().day);
 
-      final DateTime allowDateTime = DateTime(
-          DateTime.now().year - 16, DateTime.now().month, DateTime.now().day);
+        // 时间在 allowDateTime 的后面；
+        // 返回true表示在允许时间的后面出生，则不能使用
+        // 返回false，表示在允许时间的前面出生，则可以使用
+        final bool after = date.isAfter(allowDateTime);
 
-      // 时间在 allowDateTime 的后面；
-      // 返回true表示在允许时间的后面出生，则不能使用
-      // 返回false，表示在允许时间的前面出生，则可以使用
-      final bool after = date.isAfter(allowDateTime);
-
-      setState(() {
-        _dateBirthTime = date;
-        _birthAllow = !after;
-      });
-    }, currentTime: _dateBirthTime);
+        setState(() {
+          _dateBirthTime = date;
+          _birthAllow = !after;
+        });
+      },
+    );
   }
 }
 

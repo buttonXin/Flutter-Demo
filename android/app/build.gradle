@@ -39,8 +39,8 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-//        applicationId "com.laogao.flutter_github_demo"
-        applicationId "ai.nreal.nebula.universal"
+        applicationId "com.laogao.flutter_github_demo"
+//        applicationId "ai.nreal.nebula.universal"
         minSdkVersion 28
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
