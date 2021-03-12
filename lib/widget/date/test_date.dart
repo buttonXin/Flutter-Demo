@@ -1,6 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 
 class TestDatePicker extends StatefulWidget {
   @override
@@ -14,14 +14,20 @@ class _TestDatePickerState extends State<TestDatePicker> {
       body: Center(
         child: GestureDetector(
             onTap: () {
-      DatePicker.showDatePicker(context,
-      initialDateTime: DateTime.now(),
-          dateFormat: 'd|MM,yyyy',
-        onConfirm: (DateTime date,List<int> selectedIndex){
 
-        }
-      );
 
+
+              //  2021-03-10 00:00:00.000
+              showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(1900),
+                  lastDate: DateTime.now(),
+                textDirection: TextDirection.ltr
+
+              ).then((DateTime dateTime){
+                print('dateTime = $dateTime');
+              });
             },
             child: Text(
               '2345768',
