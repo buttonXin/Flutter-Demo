@@ -22,6 +22,7 @@ import 'page/video/video2_page.dart';
 import 'page/video/video3_page.dart';
 import 'page/video/video4_page.dart';
 import 'page/video/video5_page.dart';
+import 'widget/date/test_date.dart';
 
 void main() {
   runApp(MyApp());
@@ -99,7 +100,7 @@ class _MyPubspecPageState extends State<MyPubspecPage>
     final pluginSdkMap = <String, Function>{
       "缓存图片框架": (context) => CacheNetworkImage(),
       '个人中心': (context) => UserInfoPage(),
-      "CountryData": (context) => CountryDataPage(),
+      "CountryData": (context) => TestDatePicker(),
       "BaseViewDemo1": (context) => StickyPage(),
       "PopupWindow": (context) => PopupWindowPage(),
       "viewPager": (context) => MyViewPager(),

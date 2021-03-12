@@ -1,13 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:flutter_github_demo/nebula/view/base_view.dart';
 import 'package:flutter_github_demo/widget/custom_dropdown_button.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'custom_data_picker_model.dart';
+import 'package:intl/intl.dart';
 
 class UserInfoPage extends StatefulWidget {
   @override
@@ -381,39 +380,31 @@ class _UserInfoPageState extends State<UserInfoPage> {
   }
 
   void _showDateBirth() {
-    DatePicker.showPicker(
-      context,
-      showTitleActions: true,
-      locale: LocaleType.en,
-      pickerModel: CustomPicker(
-          minTime: DateTime(1900, 1, 1),
-          maxTime: DateTime.now(),
-          currentTime: _dateBirthTime,
-          locale: LocaleType.en),
-      onChanged: (DateTime date) {
-        setState(() {});
-      },
-      onConfirm: (DateTime date) {
-        final DateTime dateTime =
-            DateTime.fromMillisecondsSinceEpoch(date.millisecondsSinceEpoch);
-        print('confirm $dateTime    $date');
-        print(
-            'lao_gao-->_UserInfoPageState__showDateBirth_${date.millisecondsSinceEpoch}');
 
-        final DateTime allowDateTime = DateTime(
-            DateTime.now().year - 16, DateTime.now().month, DateTime.now().day);
+    DatePicker.showDatePicker(context,
+        locale: DateTimePickerLocale.zh_cn,
+        initialDateTime: DateTime.now(),
+        dateFormat: 'd日|MM月,yyyy年',
+        onConfirm: (DateTime date, List<int> selectedIndex) {
+      final DateTime dateTime =
+          DateTime.fromMillisecondsSinceEpoch(date.millisecondsSinceEpoch);
+      print('confirm $dateTime    $date');
+      print(
+          'lao_gao-->_UserInfoPageState__showDateBirth_${date.millisecondsSinceEpoch}');
 
-        // 时间在 allowDateTime 的后面；
-        // 返回true表示在允许时间的后面出生，则不能使用
-        // 返回false，表示在允许时间的前面出生，则可以使用
-        final bool after = date.isAfter(allowDateTime);
+      final DateTime allowDateTime = DateTime(
+          DateTime.now().year - 16, DateTime.now().month, DateTime.now().day);
 
-        setState(() {
-          _dateBirthTime = date;
-          _birthAllow = !after;
-        });
-      },
-    );
+      // 时间在 allowDateTime 的后面；
+      // 返回true表示在允许时间的后面出生，则不能使用
+      // 返回false，表示在允许时间的前面出生，则可以使用
+      final bool after = date.isAfter(allowDateTime);
+
+      setState(() {
+        _dateBirthTime = date;
+        _birthAllow = !after;
+      });
+    });
   }
 }
 

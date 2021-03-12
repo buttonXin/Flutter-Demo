@@ -314,13 +314,15 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.4.1"
-  flutter_datetime_picker:
+  flutter_cupertino_date_picker:
     dependency: "direct main"
     description:
-      name: flutter_datetime_picker
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.5.0"
+      path: "."
+      ref: HEAD
+      resolved-ref: eb3a837589e0477b2cb99dad03e9e4fb69fb6dde
+      url: "https://github.com/yasseralsamman/flutter-cupertino-date-picker.git"
+    source: git
+    version: "1.0.26+2"
   flutter_gifimage:
     dependency: "direct main"
     description:
