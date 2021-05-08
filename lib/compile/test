@@ -2,8 +2,8 @@ pipeline {
 	agent any
 
 	parameters {
-		gitParameter branchFilter: 'origin/(.*release.*|release|dev|.*standard.*)', defaultValue: 'standard_dev', name: 'BRANCH', type: 'PT_BRANCH', useRepository: 'ssh://ggxin@gerrit.nreal.ai:29418/Nebula'
-		gitParameter branchFilter: 'origin/(release/.*|dev)', defaultValue: 'dev_combine', name: 'Unity_BRANCH', type: 'PT_BRANCH', useRepository: 'git@gitlab.com:nrealces/nrealappunity.git'
+		gitParameter branchFilter: 'origin/(.*release.*|release|dev|.*standard.*)', defaultValue: 'standard_dev', name: 'BRANCH', type: 'PT_BRANCH', useRepository: '.*Nebula'
+		gitParameter branchFilter: 'origin/(release/.*|dev)', defaultValue: 'dev_combine', name: 'Unity_BRANCH', type: 'PT_BRANCH', useRepository: '.*nrealappunity.git'
 		choice(name: 'CHANNEL', choices: ['ALL', 'LGU', 'KDDI', 'ATT', 'UNIVERSAL', 'DEBUG'], description: '渠道选择')
 		string(name: 'GlassControlLib', description: '''glasses_control.aar的测试包路径，例如：\\\\package.nreal.work\\Package\\Tmp\\glasses_aar\\glasses_control.aar''')
 		string(name: 'NrApiLib', description: '''nr_api_server.aar的测试包路径，例如：
@@ -21,7 +21,7 @@ smb://package.nreal.work/Package/SDK/sdk_develop/android/2020-12-07@14.17.39_dev
 			}
 		}
 
-		stage('Sync space code') {
+		stage('Sync code') {
 			steps {
 			    println "${WORKSPACE}"
                 println "${JENKINS_HOME}"
@@ -107,21 +107,6 @@ smb://package.nreal.work/Package/SDK/sdk_develop/android/2020-12-07@14.17.39_dev
 
               //bat returnStdout: true, script: '''"%UNITY_HOME%\\Editor\\Unity.exe" -projectPath UnityProject -quit -batchmode -buildTarget Android -buildsystem Gradle -executeMethod JenkinsAutoBuilder.AutoBuilder.Build -buildType "DEBUG"  -logFile "%WORKSPACE%/Logs/unity3d_editor_%BUILD_NUMBER%_dev.log" -outpath "%WORKSPACE%/Build/Exported_DEV"'''
           }
-		}
-
-		stage('Sync nebula code') {
-			steps {
-				checkout([
-					$class: 'GitSCM',
-					branches: [[name: "${params.BRANCH}"]],
-					doGenerateSubmoduleConfigurations: false,
-					extensions: [
-						[$class: 'CloneOption', noTags: true, timeout: 60],
-						[$class: 'RelativeTargetDirectory', relativeTargetDir: 'Nebula']
-					],
-					userRemoteConfigs: [[url: 'ssh://ggxin@gerrit.nreal.ai:29418/Nebula', credentialsId: '989f3050-d13b-4c31-8e89-b08802fd9067']]
-				])
-			}
 		}
 
 		stage('Flutter pub get') {
