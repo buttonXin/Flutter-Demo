@@ -76,6 +76,11 @@ dependencies:
 # ------------
   retrofit: any
   logger: any
+#  https://pub.dev/packages/provider
+  provider: ^4.3.3
+
+#  https://pub.dev/packages/country_codes/install
+  country_codes: ^1.0.3
 
 # ------------
 #  测试新构建的模块

@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_github_demo/base_view_page/base_demo_page1.dart';
 import 'package:flutter_github_demo/base_view_page/sticky_page.dart';
+import 'package:flutter_github_demo/compile/country_iso_page.dart';
+import 'package:flutter_github_demo/compile/provider_demo.dart';
 import 'package:flutter_github_demo/page/button_anim_page.dart';
 import 'package:flutter_github_demo/page/download_file_page.dart';
 import 'package:flutter_github_demo/page/other_anim_page.dart';
@@ -15,6 +17,7 @@ import 'nebula/country_data_page.dart';
 import 'nebula/user_info_page.dart';
 import 'page/authority_page.dart';
 import 'page/image_animation_page.dart';
+import 'page/opacity_anim_page.dart';
 import 'page/popup_window_page.dart';
 import 'page/slider_page.dart';
 import 'page/toast_page.dart';
@@ -100,11 +103,11 @@ class _MyPubspecPageState extends State<MyPubspecPage>
     final pluginSdkMap = <String, Function>{
       "缓存图片框架": (context) => CacheNetworkImage(),
       '个人中心': (context) => UserInfoPage(),
-      "CountryData": (context) => TestDatePicker(),
+      "CountryData": (context) => CountryIsoPage(),
       "BaseViewDemo1": (context) => StickyPage(),
       "PopupWindow": (context) => PopupWindowPage(),
       "viewPager": (context) => MyViewPager(),
-      "button动画": (context) => ButtonAnimationPage(),
+      'button动画': (context) => MyOpacityPage(title: '555',),
       "Otherbutton动画": (context) => ScaleTransitionPage(),
       "SliderPage滑动条界面": (context) => SliderPage(),
       "json解析page": (context) => DataJsonPage(),
