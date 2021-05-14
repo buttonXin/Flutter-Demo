@@ -4,16 +4,12 @@ import 'package:cache_image/cache_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_github_demo/base_view_page/base_demo_page1.dart';
 import 'package:flutter_github_demo/base_view_page/sticky_page.dart';
 import 'package:flutter_github_demo/compile/country_iso_page.dart';
-import 'package:flutter_github_demo/compile/provider_demo.dart';
-import 'package:flutter_github_demo/page/button_anim_page.dart';
 import 'package:flutter_github_demo/page/download_file_page.dart';
 import 'package:flutter_github_demo/page/other_anim_page.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 
-import 'nebula/country_data_page.dart';
 import 'nebula/user_info_page.dart';
 import 'page/authority_page.dart';
 import 'page/image_animation_page.dart';
@@ -25,13 +21,13 @@ import 'page/video/video2_page.dart';
 import 'page/video/video3_page.dart';
 import 'page/video/video4_page.dart';
 import 'page/video/video5_page.dart';
-import 'widget/date/test_date.dart';
 
 void main() {
   runApp(MyApp());
   //设置Android底部的导航栏透明
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.black));
+      systemNavigationBarColor: Colors.transparent,
+      statusBarBrightness: Brightness.dark));
 }
 
 class MyApp extends StatelessWidget {
@@ -96,7 +92,6 @@ class _MyPubspecPageState extends State<MyPubspecPage>
 
   int count = 0;
 
-
   @override
   Widget build(BuildContext context) {
     print('lao_gao--> build');
@@ -107,7 +102,9 @@ class _MyPubspecPageState extends State<MyPubspecPage>
       "BaseViewDemo1": (context) => StickyPage(),
       "PopupWindow": (context) => PopupWindowPage(),
       "viewPager": (context) => MyViewPager(),
-      'button动画': (context) => MyOpacityPage(title: '555',),
+      'button动画': (context) => MyOpacityPage(
+            title: '555',
+          ),
       "Otherbutton动画": (context) => ScaleTransitionPage(),
       "SliderPage滑动条界面": (context) => SliderPage(),
       "json解析page": (context) => DataJsonPage(),
@@ -115,12 +112,10 @@ class _MyPubspecPageState extends State<MyPubspecPage>
       "帧动画页面": (context) => ImageAnimationPage(),
       "权限申请的页面": (context) => AuthorityPage(),
       "开源video2Chewie页面": (context) => ChewieDemo(),
-      "开源video3页面": (context) =>
-          Video4Page(
+      "开源video3页面": (context) => Video4Page(
             title: '测试4video',
           ),
-      "开源video5页面": (context) =>
-          Video5Page(
+      "开源video5页面": (context) => Video5Page(
             title: '测试5video',
           ),
       "原生的video页面": (context) => VideoPage(),
@@ -143,9 +138,7 @@ class _MyPubspecPageState extends State<MyPubspecPage>
               onTap: () {
                 if (pluginSdkMap[title] != null) {
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: pluginSdkMap[title] )
-                  );
+                      context, MaterialPageRoute(builder: pluginSdkMap[title]));
                 }
               },
             );
@@ -223,8 +216,8 @@ class _MyPubspecPageState extends State<MyPubspecPage>
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
-
 }
+
 class CacheNetworkImage extends StatefulWidget {
   @override
   _CacheNetworkImageState createState() => _CacheNetworkImageState();
