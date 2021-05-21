@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_github_demo/base_view_page/sticky_page.dart';
 import 'package:flutter_github_demo/compile/country_iso_page.dart';
+import 'package:flutter_github_demo/compile/web_view_page.dart';
 import 'package:flutter_github_demo/page/download_file_page.dart';
 import 'package:flutter_github_demo/page/other_anim_page.dart';
 import 'package:preload_page_view/preload_page_view.dart';
@@ -107,7 +108,7 @@ class _MyPubspecPageState extends State<MyPubspecPage>
           ),
       "Otherbutton动画": (context) => ScaleTransitionPage(),
       "SliderPage滑动条界面": (context) => SliderPage(),
-      "json解析page": (context) => DataJsonPage(),
+      "webview": (context) => WebViewPage(),
       "dio下载文件": (context) => DownloadFilePage(),
       "帧动画页面": (context) => ImageAnimationPage(),
       "权限申请的页面": (context) => AuthorityPage(),

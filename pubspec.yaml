@@ -82,6 +82,9 @@ dependencies:
 #  https://pub.dev/packages/country_codes/install
   country_codes: ^1.0.3
 
+  #  webview组件
+  webview_flutter: ^0.3.22+1
+
 # ------------
 #  测试新构建的模块
 # ------------
