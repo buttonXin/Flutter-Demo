@@ -52,7 +52,7 @@ class _BaseCommonPageViewState extends State<BaseCommonPageView> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: false,
         // appBar: MyAppBar(childBackText: widget.childBackText,childTopTitleText: widget.childTopTitleText,),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(60),

@@ -491,7 +491,7 @@ class DropdownButtonHideUnderline extends InheritedWidget {
   /// Returns whether the underline of [DropdownButton] widgets should
   /// be hidden.
   static bool at(BuildContext context) {
-    return context.inheritFromWidgetOfExactType(DropdownButtonHideUnderline) !=
+    return context.dependOnInheritedWidgetOfExactType() !=
         null;
   }
 
@@ -796,7 +796,7 @@ class _DropdownButtonState<T> extends State<CustomDropdownButton<T>>
       padding: _kMenuItemPadding.resolve(textDirection),
       selectedIndex: 0,
       elevation: widget.elevation,
-      theme: Theme.of(context, shadowThemeOnly: true),
+      theme: Theme.of(context),
       style: _textStyle,
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       dropdownColor: widget.dropdownColor,

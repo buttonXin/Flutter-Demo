@@ -6,7 +6,7 @@ import 'package:flutter_github_demo/nebula/view/base_view.dart';
 import 'package:flutter_github_demo/widget/custom_dropdown_button.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:intl/intl.dart';
+
 
 class UserInfoPage extends StatefulWidget {
   @override

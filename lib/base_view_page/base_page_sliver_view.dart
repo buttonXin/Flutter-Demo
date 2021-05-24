@@ -49,7 +49,7 @@ class _BasePageSliverState extends State<BasePageSliver> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: false,
         body: Container(
           decoration: const BoxDecoration(
               gradient: LinearGradient(
