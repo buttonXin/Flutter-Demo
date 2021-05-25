@@ -29,7 +29,7 @@ class BaseCommonPageView extends StatefulWidget {
   // ignore: sort_constructors_first
   BaseCommonPageView({
     @required this.childCenter,
-    this.childBackText,
+    this.childBackText= 'title',
     this.childTopTitleText,
     this.userChildTopIcon = '',
     this.userChildTopIconOnTap,

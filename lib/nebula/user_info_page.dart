@@ -1,12 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:flutter_github_demo/nebula/view/base_view.dart';
 import 'package:flutter_github_demo/widget/custom_dropdown_button.dart';
-import 'package:numberpicker/numberpicker.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 
 class UserInfoPage extends StatefulWidget {
   @override
@@ -331,81 +328,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
   }
 
   /// 显示瞳距的dialog
-  void _buildDialogDistance() {
-    showDialog<int>(
-        context: context,
-        builder: (_) {
-          return NumberPickerDialog.integer(
-              textMapper: (String value) {
-                if (num.tryParse(value) == 1) {
-                  return 'nan';
-                } else if (num.tryParse(value) == 2) {
-                  return 'nv';
-                }
-                return 'other';
-              },
-              initialIntegerValue: 3,
-              minValue: 1,
-              maxValue: 3);
-        }).then((int value) {
-      print('lao_gao-->_UserInfoPageState__buildDialogDistance_${value}');
-    });
+  void _buildDialogDistance() {}
 
-    NumberPicker.integer(
-        textMapper: (String value) {
-          if (num.tryParse(value) == 1) {
-            return 'nan';
-          } else if (num.tryParse(value) == 2) {
-            return 'nv';
-          }
-          return 'other';
-        },
-        initialValue: 3,
-        minValue: 1,
-        maxValue: 3,
-        onChanged: (num v) {});
-
-    // showDialog(
-    //     context: context,
-    //     builder: (_) {
-    //       return SimpleDialog(
-    //         children: [
-    //           Padding(
-    //             padding: const EdgeInsets.all(10),
-    //             child: Text(textDistance),
-    //           )
-    //         ],
-    //       );
-    //     });
-  }
-
-  void _showDateBirth() {
-
-    DatePicker.showDatePicker(context,
-        locale: DateTimePickerLocale.zh_cn,
-        initialDateTime: DateTime.now(),
-        dateFormat: 'd日|MM月,yyyy年',
-        onConfirm: (DateTime date, List<int> selectedIndex) {
-      final DateTime dateTime =
-          DateTime.fromMillisecondsSinceEpoch(date.millisecondsSinceEpoch);
-      print('confirm $dateTime    $date');
-      print(
-          'lao_gao-->_UserInfoPageState__showDateBirth_${date.millisecondsSinceEpoch}');
-
-      final DateTime allowDateTime = DateTime(
-          DateTime.now().year - 16, DateTime.now().month, DateTime.now().day);
-
-      // 时间在 allowDateTime 的后面；
-      // 返回true表示在允许时间的后面出生，则不能使用
-      // 返回false，表示在允许时间的前面出生，则可以使用
-      final bool after = date.isAfter(allowDateTime);
-
-      setState(() {
-        _dateBirthTime = date;
-        _birthAllow = !after;
-      });
-    });
-  }
+  void _showDateBirth() {}
 }
 
 /// floatButton 不进行动画

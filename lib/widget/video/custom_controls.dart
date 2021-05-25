@@ -363,7 +363,7 @@ class _CustomControlsState extends State<CustomControls> {
       } else {
         _cancelAndRestartTimer();
 
-        if (!controller.value.initialized) {
+        if (!controller.value.isPlaying) {
           controller.initialize().then((_) {
             controller.play();
           });

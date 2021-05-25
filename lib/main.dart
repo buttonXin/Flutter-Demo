@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cache_image/cache_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,8 +19,6 @@ import 'page/slider_page.dart';
 import 'page/toast_page.dart';
 import 'page/video/video2_page.dart';
 import 'page/video/video3_page.dart';
-import 'page/video/video4_page.dart';
-import 'page/video/video5_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -113,12 +110,6 @@ class _MyPubspecPageState extends State<MyPubspecPage>
       "帧动画页面": (context) => ImageAnimationPage(),
       "权限申请的页面": (context) => AuthorityPage(),
       "开源video2Chewie页面": (context) => ChewieDemo(),
-      "开源video3页面": (context) => Video4Page(
-            title: '测试4video',
-          ),
-      "开源video5页面": (context) => Video5Page(
-            title: '测试5video',
-          ),
       "原生的video页面": (context) => VideoPage(),
       "toast页面": (context) => ToastPage(),
     };
@@ -240,9 +231,6 @@ class _CacheNetworkImageState extends State<CacheNetworkImage> {
               ),
             ),
             Expanded(child: Image.asset("images/1.webp")),
-            Expanded(
-                child: Image(
-                    fit: BoxFit.cover, image: CacheImage("images/9.png"))),
             Expanded(
               child: CachedNetworkImage(
                 imageUrl:
