@@ -15,7 +15,6 @@ class _ToastPageState extends State<ToastPage> {
         child: Center(
           child: FloatingActionButton(
             onPressed: () async {
-              Toast.show(context: context, message: 'sdasdasqwrfadfasdfsa');
 
               String httpUrl = 'https://play.google.com/store/apps/details?id=ai.nreal.neubla';
               String phoneUrl = 'tel:18039125095';

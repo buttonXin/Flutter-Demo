@@ -90,6 +90,31 @@ class _PopupWindowPageState extends State<PopupWindowPage> {
                     }).toList(),
                   ),
                 )),
+            
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: const BoxDecoration(
+                color: Colors.grey,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(50),
+                ),
+              ),
+              child: DropdownButton<String>(
+                  value:  _selectSleepTime,
+                  onChanged: (String newValue) {
+                    setState(() {
+                      _selectSleepTime = newValue;
+                    });
+                  },
+                  underline: Container(),
+                  icon: const Icon(Icons.keyboard_arrow_down),
+                  items: items.map<DropdownMenuItem<String>>((dynamic value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value,style: TextStyle(color: _selectSleepTime == value?Colors.red:Colors.black ),),
+                );
+              }).toList()),
+            ),
           ],
         ));
   }

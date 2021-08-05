@@ -39,22 +39,41 @@ class _ToastPageState extends State<ToastPage> with TickerProviderStateMixin  {
   @override
   Widget build(BuildContext context) {
 
-    DefaultAssetBundle.of(context).loadString("images/data/lgu.json").then((value){
-
-      List<Map<String,dynamic>> map = json.decode(value);
-      print('lao_gao-->_ToastPageState_build_$map    ${map[0]}');
-    });
+    // DefaultAssetBundle.of(context).loadString("images/data/lgu.json").then((value){
+    //
+    //   List<Map<String,dynamic>> map = json.decode(value);
+    //   print('lao_gao-->_ToastPageState_build_$map    ${map[0]}');
+    // });
 
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
         child: Column(
           children: [
-            SizedBox(height: 100,),
+            const SizedBox(height: 100,),
+
+            ElevatedButton(
+              onPressed: () async {
+
+                showDialog(context: context, builder: (_){
+                  return SimpleDialog(title: Text('title'),children: [
+                    ElevatedButton(
+                      onPressed: () async {
+                        Navigator.pop(context);
+                      },
+                      child: Text('close'),
+                    ),
+                  ],);
+                });
+              },
+              child: Text('出现dialog'),
+            ),
+
+
             Center(
-              child: FloatingActionButton(
+              child: ElevatedButton(
                 onPressed: () async {
-                  Toast.show(context: context, message: 'sdasdasqwrfadfasdfsa');
+                  Toast.show(message: 'sdasdasqwrfadfasdfsa');
 
                   _playAnimation();
 

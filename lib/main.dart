@@ -30,6 +30,8 @@ void main() {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -80,6 +82,7 @@ class _MySplashPageState extends State<MySplashPage> {
 
 /// 使用的第三方在这里进行测试
 class MyPubspecPage extends StatefulWidget {
+  static GlobalKey<NavigatorState> navigatorState =  GlobalKey();
   @override
   _MyPubspecPageState createState() => _MyPubspecPageState();
 }
@@ -87,6 +90,7 @@ class MyPubspecPage extends StatefulWidget {
 class _MyPubspecPageState extends State<MyPubspecPage>
     with WidgetsBindingObserver {
   StreamController<String> _controller = new StreamController.broadcast();
+
 
   int count = 0;
 
@@ -115,6 +119,7 @@ class _MyPubspecPageState extends State<MyPubspecPage>
     };
 
     return Scaffold(
+      key: MyPubspecPage.navigatorState,
       appBar: AppBar(
         title: Text('测试第三方框架'),
         centerTitle: true,
