@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPage extends StatefulWidget {
-  String _name;
+  String? _name;
 
-  String get getName => _name;
+  String? get getName => _name;
 
   @override
   _VideoPageState createState() => _VideoPageState();
 
-  VideoPage({Key key}) : super(key: key);
+  VideoPage({Key? key}) : super(key: key);
 }
 
 class _VideoPageState extends State<VideoPage> {
   String videoUrl =
       'http://jzvd.nathen.cn/342a5f7ef6124a4a8faf00e738b8bee4/cf6d9db0bd4d41f59d09ea0a81e918fd-5287d2089db37e62345123a1be272f8b.mp4';
 
-  VideoPlayerController _videoPlayerController;
-  VideoPlayerController _controller;
-  Future<void> _initializeVideoPlayerFuture;
+  late VideoPlayerController _videoPlayerController;
+  late VideoPlayerController _controller;
+  Future<void>? _initializeVideoPlayerFuture;
   bool loading = false;
 
   @override

@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 class RoundCheckBox extends StatefulWidget {
   var value = false;
 
-  Function(bool) onChanged;
+  Function(bool)? onChanged;
   Color unSelectorColor;
   bool canSelector;
 
   RoundCheckBox(
-      {Key key,
-      @required this.value,
+      {Key? key,
+      required this.value,
       this.onChanged,
       this.unSelectorColor = Colors.red,
       this.canSelector = true})
@@ -28,7 +28,7 @@ class _RoundCheckBoxState extends State<RoundCheckBox> {
           onTap: () {
             if (widget.canSelector) {
               widget.value = !widget.value;
-              widget.onChanged(widget.value);
+              widget.onChanged!(widget.value);
             }
           },
           child: Padding(

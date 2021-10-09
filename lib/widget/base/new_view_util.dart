@@ -13,7 +13,7 @@ class NewViewUtil {
     );
   }
 
-  static Widget buildInfo(String text, {TextStyle textStyle}) {
+  static Widget buildInfo(String text, {TextStyle? textStyle}) {
     return Text(
       '$text',
       style: textStyle,
@@ -21,7 +21,7 @@ class NewViewUtil {
     );
   }
 
-  static Widget buildColorDivider({Color color, double verticalSize = 1.0}) {
+  static Widget buildColorDivider({Color? color, double verticalSize = 1.0}) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: verticalSize),
       child: Divider(
@@ -41,10 +41,10 @@ class NewViewUtil {
   /// 全局的ListTitle 布局， 保证宽高箭头一致
   /// 下面的 宽高要有默认值！！！
   static Widget buildGlobalListTitle({
-    @required Text text,
+    required Text text,
     double vertical = 25,
     double horizontal = 20,
-    Function onTap,
+    Function? onTap,
   }) {
     return ShadowBgView(
       text: text,
@@ -55,12 +55,12 @@ class NewViewUtil {
   }
 
   /// 全局的 InkWell 布局， 保证点击效果一致
-  static Widget buildGlobalInkWell({@required Widget child, Function onTap}) {
+  static Widget buildGlobalInkWell({required Widget child, Function? onTap}) {
     return InkWell(
 //      splashColor: Colors.transparent,
       highlightColor: Colors.grey,
       child: child,
-      onTap: onTap,
+      onTap: onTap as void Function()?,
     );
   }
 

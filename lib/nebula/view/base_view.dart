@@ -24,7 +24,7 @@ Widget buildTopBackView(BuildContext context) {
               '个人中心',
               style: Theme.of(context)
                   .textTheme
-                  .headline5
+                  .headline5!
                   .apply(fontWeightDelta: 3)
               .apply(color: Colors.white),
 //                  TextStyle(color: Colors.white,fontSize: 24,fontWeight: FontWeight.bold)
@@ -37,10 +37,10 @@ Widget buildTopBackView(BuildContext context) {
 }
 
 class TitleBackView extends StatefulWidget {
-  Function onTap;
-  Widget child;
+  Function? onTap;
+  Widget? child;
 
-  TitleBackView({Key key, this.onTap, this.child});
+  TitleBackView({Key? key, this.onTap, this.child});
 
   @override
   _TitleBackViewState createState() => _TitleBackViewState();
@@ -50,7 +50,7 @@ class _TitleBackViewState extends State<TitleBackView> {
   final Color _clickColor = Colors.grey.withOpacity(0.5);
   final Color _defaultColor = Colors.transparent;
 
-  Color _color;
+  Color? _color;
 
   @override
   void initState() {

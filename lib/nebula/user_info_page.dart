@@ -21,7 +21,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   bool _birthAllow = true;
 
   String _genderValue = '60';
-  List<String> list;
+  late List<String> list;
 
   @override
   void initState() {
@@ -129,13 +129,13 @@ class _UserInfoPageState extends State<UserInfoPage> {
   }
 
   Widget _buildEachInfo(
-      {String title,
-      String content,
+      {String? title,
+      String? content,
       bool canEdit = true,
       bool canIcon = false,
-      Function onTop}) {
+      Function? onTop}) {
     return GestureDetector(
-      onTap: onTop,
+      onTap: onTop as void Function()?,
       child: Container(
         height: 50,
         alignment: Alignment.centerLeft,
@@ -164,7 +164,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   }
 
   Widget _buildDistanceInfo(
-      {String title, String content, bool canEdit = true, Function onTop}) {
+      {String? title, String? content, bool canEdit = true, Function? onTop}) {
     return Container(
       height: 50,
       alignment: Alignment.centerLeft,
@@ -197,7 +197,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                 ),
               ),
               GestureDetector(
-                  onTap: onTop,
+                  onTap: onTop as void Function()?,
                   child: const Padding(
                     padding: EdgeInsets.all(10.0),
                     child: Icon(Icons.error_outline_rounded),
@@ -208,14 +208,14 @@ class _UserInfoPageState extends State<UserInfoPage> {
   }
 
   /// [visible] true 表示要显示；
-  Widget _buildErrorWidget({bool visible, String text}) {
+  Widget _buildErrorWidget({required bool visible, String? text}) {
     if (!visible) {
       return Container();
     }
     return Column(
       children: [
         const SizedBox(height: 20),
-        Text(text),
+        Text(text!),
       ],
     );
   }
@@ -247,10 +247,10 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
   /// 下拉选项
   Widget _buildDropWidget(
-      {@required String title,
-      @required String value,
-      @required List<String> mapData,
-      @required Function onChanged,
+      {required String title,
+      required String value,
+      required List<String> mapData,
+      required Function onChanged,
       Color dropColor = Colors.grey}) {
     const Color _arrowColor = Colors.white;
     return Container(
@@ -288,7 +288,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
               underline: Container(),
               icon: Icon(Icons.keyboard_arrow_down, color: _arrowColor),
               iconClick: Icon(Icons.keyboard_arrow_up, color: _arrowColor),
-              onChanged: onChanged,
+              onChanged: onChanged as void Function(String),
               dropdownColor: dropColor,
               // dropdownHeight: 10,
               value: value,
@@ -335,23 +335,23 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
 /// floatButton 不进行动画
 class NoScalingAnimation extends FloatingActionButtonAnimator {
-  double _x;
-  double _y;
+  late double _x;
+  late double _y;
 
   @override
-  Offset getOffset({Offset begin, Offset end, double progress}) {
+  Offset getOffset({required Offset begin, required Offset end, required double progress}) {
     _x = begin.dx + (end.dx - begin.dx) * progress;
     _y = begin.dy + (end.dy - begin.dy) * progress;
     return Offset(_x, _y);
   }
 
   @override
-  Animation<double> getRotationAnimation({Animation<double> parent}) {
+  Animation<double> getRotationAnimation({required Animation<double> parent}) {
     return Tween<double>(begin: 1.0, end: 1.0).animate(parent);
   }
 
   @override
-  Animation<double> getScaleAnimation({Animation<double> parent}) {
+  Animation<double> getScaleAnimation({required Animation<double> parent}) {
     return Tween<double>(begin: 1.0, end: 1.0).animate(parent);
   }
 }

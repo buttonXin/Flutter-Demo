@@ -13,7 +13,7 @@ class ToastPage extends StatefulWidget {
 }
 
 class _ToastPageState extends State<ToastPage> with TickerProviderStateMixin  {
-  AnimationController _controller;
+  AnimationController? _controller;
 
   @override
   void initState() {
@@ -28,9 +28,9 @@ class _ToastPageState extends State<ToastPage> with TickerProviderStateMixin  {
   Future<Null> _playAnimation() async {
     try {
       //先正向执行动画
-      await _controller.forward().orCancel;
+      await _controller!.forward().orCancel;
       //再反向执行动画
-      await _controller.reverse().orCancel;
+      await _controller!.reverse().orCancel;
     } on TickerCanceled {
       // the animation got canceled, probably because we were disposed
     }

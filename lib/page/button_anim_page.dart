@@ -11,10 +11,10 @@ class _ButtonAnimationPageState extends State<ButtonAnimationPage>
 
   final Widget _normalButton = Image.asset('images/anim/enter_normal.png');
   final Widget _pressedButton = Image.asset('images/anim/enter_normal.png');
-  Widget _enterButton;
+  Widget? _enterButton;
 
-  AnimationController controller;
-  Animation<double> animation;
+  late AnimationController controller;
+  late Animation<double> animation;
 
   double _buttonHeight = 0;
 
@@ -90,35 +90,35 @@ class _ButtonAnimationPageState extends State<ButtonAnimationPage>
 
   @override
   void didChangeDependencies() {
-    WidgetsBinding.instance.addPostFrameCallback(_getContainerHeight);
+    WidgetsBinding.instance!.addPostFrameCallback(_getContainerHeight);
     super.didChangeDependencies();
   }
 
   @override
   void didUpdateWidget(covariant ButtonAnimationPage oldWidget) {
-    WidgetsBinding.instance.addPostFrameCallback(_getContainerHeight);
+    WidgetsBinding.instance!.addPostFrameCallback(_getContainerHeight);
     super.didUpdateWidget(oldWidget);
   }
 
-  double _getContainerHeight(_) {
-    _buttonHeight = _buttonKey.currentContext.size.height;
+   _getContainerHeight(_) {
+    _buttonHeight = _buttonKey.currentContext!.size!.height;
   }
 }
 
 class ButtonAnimationWidget extends StatelessWidget {
   ButtonAnimationWidget({this.child, this.animation});
 
-  final Widget child;
-  final Animation<double> animation;
+  final Widget? child;
+  final Animation<double>? animation;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: AnimatedBuilder(
-          animation: animation,
-          builder: (BuildContext context, Widget child) {
+          animation: animation!,
+          builder: (BuildContext context, Widget? child) {
             return Container(
-                height: animation.value, width: animation.value, child: child);
+                height: animation!.value, width: animation!.value, child: child);
           },
           child: child),
     );

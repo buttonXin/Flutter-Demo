@@ -171,7 +171,7 @@ class _StickyPageState extends State<StickyPage> {
                 'widget.childBackText',
                 style: Theme.of(context)
                     .textTheme
-                    .headline5
+                    .headline5!
                     .apply(color: Colors.white)
                     .apply(fontWeightDelta: 3),
 //                  TextStyle(color: Colors.white,fontSize: 24,fontWeight: FontWeight.bold)
@@ -292,9 +292,9 @@ class _StickyPageState extends State<StickyPage> {
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   _SliverAppBarDelegate({
-    @required this.minHeight,
-    @required this.maxHeight,
-    @required this.child,
+    required this.minHeight,
+    required this.maxHeight,
+    required this.child,
   });
 
   final double minHeight;

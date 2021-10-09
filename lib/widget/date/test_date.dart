@@ -25,7 +25,7 @@ class _TestDatePickerState extends State<TestDatePicker> {
                   lastDate: DateTime.now(),
                 textDirection: TextDirection.ltr
 
-              ).then((DateTime dateTime){
+              ).then((DateTime? dateTime){
                 print('dateTime = $dateTime');
               });
             },

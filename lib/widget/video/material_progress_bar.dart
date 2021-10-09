@@ -6,17 +6,17 @@ import 'package:video_player/video_player.dart';
 class MaterialVideoProgressBar extends StatefulWidget {
   MaterialVideoProgressBar(
     this.controller, {
-    ChewieProgressColors colors,
+    ChewieProgressColors? colors,
     this.onDragEnd,
     this.onDragStart,
     this.onDragUpdate,
   }) : colors = colors ?? ChewieProgressColors();
 
-  final VideoPlayerController controller;
+  final VideoPlayerController? controller;
   final ChewieProgressColors colors;
-  final Function() onDragStart;
-  final Function() onDragEnd;
-  final Function() onDragUpdate;
+  final Function()? onDragStart;
+  final Function()? onDragEnd;
+  final Function()? onDragUpdate;
 
   @override
   _VideoProgressBarState createState() {
@@ -31,20 +31,20 @@ class _VideoProgressBarState extends State<MaterialVideoProgressBar> {
     };
   }
 
-  VoidCallback listener;
+  late VoidCallback listener;
   bool _controllerWasPlaying = false;
 
-  VideoPlayerController get controller => widget.controller;
+  VideoPlayerController? get controller => widget.controller;
 
   @override
   void initState() {
     super.initState();
-    controller.addListener(listener);
+    controller!.addListener(listener);
   }
 
   @override
   void deactivate() {
-    controller.removeListener(listener);
+    controller!.removeListener(listener);
     super.deactivate();
   }
 
@@ -54,8 +54,8 @@ class _VideoProgressBarState extends State<MaterialVideoProgressBar> {
       final box = context.findRenderObject() as RenderBox;
       final Offset tapPos = box.globalToLocal(globalPosition);
       final double relative = tapPos.dx / box.size.width;
-      final Duration position = controller.value.duration * relative;
-      controller.seekTo(position);
+      final Duration position = controller!.value.duration * relative;
+      controller!.seekTo(position);
     }
 
     return GestureDetector(
@@ -66,46 +66,46 @@ class _VideoProgressBarState extends State<MaterialVideoProgressBar> {
           color: Colors.transparent,
           child: CustomPaint(
             painter: _ProgressBarPainter(
-              controller.value,
+              controller!.value,
               widget.colors,
             ),
           ),
         ),
       ),
       onHorizontalDragStart: (DragStartDetails details) {
-        if (!controller.value.isPlaying) {
+        if (!controller!.value.isPlaying) {
           return;
         }
-        _controllerWasPlaying = controller.value.isPlaying;
+        _controllerWasPlaying = controller!.value.isPlaying;
         if (_controllerWasPlaying) {
-          controller.pause();
+          controller!.pause();
         }
 
         if (widget.onDragStart != null) {
-          widget.onDragStart();
+          widget.onDragStart!();
         }
       },
       onHorizontalDragUpdate: (DragUpdateDetails details) {
-        if (!controller.value.isPlaying) {
+        if (!controller!.value.isPlaying) {
           return;
         }
         seekToRelativePosition(details.globalPosition);
 
         if (widget.onDragUpdate != null) {
-          widget.onDragUpdate();
+          widget.onDragUpdate!();
         }
       },
       onHorizontalDragEnd: (DragEndDetails details) {
         if (_controllerWasPlaying) {
-          controller.play();
+          controller!.play();
         }
 
         if (widget.onDragEnd != null) {
-          widget.onDragEnd();
+          widget.onDragEnd!();
         }
       },
       onTapDown: (TapDownDetails details) {
-        if (!controller.value.isPlaying) {
+        if (!controller!.value.isPlaying) {
           return;
         }
         seekToRelativePosition(details.globalPosition);

@@ -16,7 +16,7 @@ class _PopupWindowPageState extends State<PopupWindowPage> {
     'never',
   ];
 
-  String _selectSleepTime = '1s';
+  String? _selectSleepTime = '1s';
   bool _selectClick = false;
 
   @override
@@ -42,14 +42,14 @@ class _PopupWindowPageState extends State<PopupWindowPage> {
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: Row(
                       children: [
-                        Text(_selectSleepTime),
+                        Text(_selectSleepTime!),
                         Icon(_selectClick
                             ? Icons.keyboard_arrow_down
                             : Icons.keyboard_arrow_up),
                       ],
                     ),
                   ),
-                  onSelected: (value) {
+                  onSelected: (dynamic value) {
                     print('lao_gao-->_PopupWindowPageState_build_${value}');
                   },
                   onCanceled: () {},
@@ -101,7 +101,7 @@ class _PopupWindowPageState extends State<PopupWindowPage> {
               ),
               child: DropdownButton<String>(
                   value:  _selectSleepTime,
-                  onChanged: (String newValue) {
+                  onChanged: (String? newValue) {
                     setState(() {
                       _selectSleepTime = newValue;
                     });

@@ -5,12 +5,12 @@ class AnimatedUpArrow extends AnimatedWidget {
   final Tween<double> _opacityTween = Tween(begin: 1, end: 0);
   final Tween<double> _marginTween = Tween(begin: 0, end: 40);
 
-  AnimatedUpArrow({Key key, Animation<double> animation})
+  AnimatedUpArrow({Key? key, required Animation<double> animation})
       : super(key: key, listenable: animation);
 
   @override
   Widget build(BuildContext context) {
-    final Animation<double> animation = listenable;
+    final Animation<double> animation = listenable as Animation<double>;
     return SafeArea(
       child: Center(
         child: Opacity(
@@ -32,17 +32,17 @@ class AnimatedUpArrow extends AnimatedWidget {
 class SpreadWidget extends StatefulWidget {
   SpreadWidget({
     this.child,
-    @required this.radius,
-    @required this.maxRadius,
+    required this.radius,
+    required this.maxRadius,
     this.cycles,
     this.spreadColor = Colors.grey,
     this.duration = const Duration(milliseconds: 2000),
   });
 
-  final Widget child;
+  final Widget? child;
   final double radius;
   final double maxRadius;
-  final int cycles;
+  final int? cycles;
   final Color spreadColor;
   final Duration duration;
 
@@ -74,7 +74,7 @@ class _SpreadWidgetState extends State<SpreadWidget>
 
   start() async {
     int i = 0;
-    while (widget.cycles == null ? true : i < widget.cycles) {
+    while (widget.cycles == null ? true : i < widget.cycles!) {
       if (mounted) {
         setState(() {
           AnimationController _animationController;
@@ -122,7 +122,6 @@ class _SpreadWidgetState extends State<SpreadWidget>
   void dispose() {
     controllers.forEach((c) {
       c.dispose();
-      c = null;
     });
     super.dispose();
   }
@@ -142,17 +141,17 @@ class AnimatedSpread extends AnimatedWidget {
   final Color color;
 
   AnimatedSpread(
-      {Key key,
-      @required Animation<double> animation,
-      @required double radius,
-      @required double maxRadius,
-      @required this.color})
+      {Key? key,
+      required Animation<double> animation,
+      required double radius,
+      required double maxRadius,
+      required this.color})
       : _radiusTween = Tween(begin: radius, end: maxRadius),
         super(key: key, listenable: animation);
 
   @override
   Widget build(BuildContext context) {
-    final Animation<double> animation = listenable;
+    final Animation<double> animation = listenable as Animation<double>;
     return Container(
       width: _radiusTween.evaluate(animation),
       height: _radiusTween.evaluate(animation),
@@ -175,9 +174,9 @@ class ScaleTransitionExample extends StatefulWidget {
 
 class _ScaleTransitionExampleState extends State<ScaleTransitionExample>
     with SingleTickerProviderStateMixin {
-  AnimationController _animationController;
+  late AnimationController _animationController;
 
-  Animation<double> _animation;
+  late Animation<double> _animation;
 
   @override
   void initState() {

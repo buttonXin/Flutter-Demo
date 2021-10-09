@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class TitleBackView extends StatefulWidget {
-  Function onTap;
-  Widget child;
+  Function? onTap;
+  Widget? child;
 
-  TitleBackView({Key key, this.onTap, this.child});
+  TitleBackView({Key? key, this.onTap, this.child});
 
   @override
   _TitleBackViewState createState() => _TitleBackViewState();
@@ -14,7 +14,7 @@ class _TitleBackViewState extends State<TitleBackView> {
   final Color _clickColor = Colors.grey.withOpacity(0.5);
   final Color _defaultColor = Colors.transparent;
 
-  Color _color;
+  Color? _color;
 
   @override
   void initState() {
@@ -25,7 +25,7 @@ class _TitleBackViewState extends State<TitleBackView> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
+      onTap: widget.onTap as void Function()?,
       onTapDown: (TapDownDetails details) => {
         setState(() {
           _color = _clickColor;

@@ -16,16 +16,16 @@ class CustomSwitchTitle extends StatefulWidget {
       this.padding = const EdgeInsets.symmetric(horizontal: 5),
       this.showIcon = false});
 
-  String title;
-  bool value;
-  ValueChanged<bool> onChanged;
-  Color activeColor;
-  Color trackColor;
+  String? title;
+  bool? value;
+  ValueChanged<bool>? onChanged;
+  Color? activeColor;
+  Color? trackColor;
 
   // 是否显示问号
   bool showIcon;
 
-  Function onTap;
+  Function? onTap;
   EdgeInsetsGeometry padding;
 
   @override
@@ -48,7 +48,7 @@ class _CustomSwitchTitleState extends State<CustomSwitchTitle> {
                     padding: const EdgeInsets.symmetric(horizontal: 2.0),
                     child: widget.showIcon
                         ? GestureDetector(
-                            onTap: widget.onTap,
+                            onTap: widget.onTap as void Function()?,
                             child: const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 5),
                               child: Icon(Icons.help),
@@ -62,7 +62,7 @@ class _CustomSwitchTitleState extends State<CustomSwitchTitle> {
         Padding(
           padding: widget.padding,
           child: CupertinoSwitch(
-            value: widget.value,
+            value: widget.value!,
             onChanged: widget.onChanged,
             activeColor: widget.activeColor ?? CupertinoColors.activeGreen,
             trackColor: widget.trackColor ?? CupertinoColors.inactiveGray,

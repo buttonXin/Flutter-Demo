@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class StaggerAnimation extends StatelessWidget {
-  StaggerAnimation({Key key, this.controller}) : super(key: key) {
+  StaggerAnimation({Key? key, this.controller}) : super(key: key) {
     //高度动画
     height = Tween<double>(
       begin: .0,
       end: 300.0,
     ).animate(
       CurvedAnimation(
-        parent: controller,
+        parent: controller!,
         curve: Interval(
           0.0, 0.6, //间隔，前60%的动画时间
           curve: Curves.ease,
@@ -21,7 +21,7 @@ class StaggerAnimation extends StatelessWidget {
       end: Colors.red,
     ).animate(
       CurvedAnimation(
-        parent: controller,
+        parent: controller!,
         curve: Interval(
           0.0, 0.6, //间隔，前60%的动画时间
           curve: Curves.ease,
@@ -34,7 +34,7 @@ class StaggerAnimation extends StatelessWidget {
       end: EdgeInsets.only(left: 100.0),
     ).animate(
       CurvedAnimation(
-        parent: controller,
+        parent: controller!,
         curve: Interval(
           0.6, 1.0, //间隔，后40%的动画时间
           curve: Curves.ease,
@@ -43,12 +43,12 @@ class StaggerAnimation extends StatelessWidget {
     );
   }
 
-  final Animation<double> controller;
-  Animation<double> height;
-  Animation<EdgeInsets> padding;
-  Animation<Color> color;
+  final Animation<double>? controller;
+  Animation<double>? height;
+  late Animation<EdgeInsets> padding;
+  Animation<Color?>? color;
 
-  Widget _buildAnimation(BuildContext context, Widget child) {
+  Widget _buildAnimation(BuildContext context, Widget? child) {
     return Container(
       alignment: Alignment.bottomCenter,
       padding: padding.value,
@@ -62,7 +62,7 @@ class StaggerAnimation extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       builder: _buildAnimation,
-      animation: controller,
+      animation: controller!,
     );
   }
 }

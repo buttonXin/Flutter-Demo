@@ -120,14 +120,14 @@ class _AuthorityPageState extends State<AuthorityPage>
   @override
   void initState() {
     print('lao_gao--> initState');
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
     super.initState();
   }
 
   @override
   void dispose() {
     print('lao_gao--> dispose}');
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 }

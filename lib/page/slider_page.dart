@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gifimage/flutter_gifimage.dart';
+// import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:flutter_github_demo/widget/cricle_anim_view.dart';
 
 class SliderPage extends StatefulWidget {
@@ -11,19 +11,19 @@ class _SliderPageState extends State<SliderPage> with TickerProviderStateMixin {
   double _value = 35;
   int _dollars = 20;
 
-  GifController _gifController;
+  // GifController _gifController;
 
   @override
   void initState() {
     super.initState();
 
-    _gifController = GifController(vsync: this);
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _gifController.repeat(min:0,max:29,period:const Duration(milliseconds: 2000));
-      // jumpTo thrid frame(index from 0)
-      // _gifController.value = 0;
-    });
+    // _gifController = GifController(vsync: this);
+    //
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   _gifController.repeat(min:0,max:29,period:const Duration(milliseconds: 2000));
+    //   // jumpTo thrid frame(index from 0)
+    //   // _gifController.value = 0;
+    // });
 
 
 
@@ -97,10 +97,10 @@ class _SliderPageState extends State<SliderPage> with TickerProviderStateMixin {
               },
               child: AnimatedUpArrow(animation: _animation)),
           Text('data'),
-          GifImage(
-            controller: _gifController,
-            image: AssetImage("images/animate.gif"),
-          ),
+          // GifImage(
+          //   controller: _gifController,
+          //   image: AssetImage("images/animate.gif"),
+          // ),
           Spacer(),
           Container(
             width: 200,
@@ -121,6 +121,6 @@ class _SliderPageState extends State<SliderPage> with TickerProviderStateMixin {
     );
   }
 
-  AnimationController _animationController;
-  Animation<double> _animation;
+  late AnimationController _animationController;
+  late Animation<double> _animation;
 }

@@ -15,10 +15,10 @@ class ChewieDemo extends StatefulWidget {
 }
 
 class _ChewieDemoState extends State<ChewieDemo> {
-  TargetPlatform _platform;
-  VideoPlayerController _videoPlayerController1;
-  VideoPlayerController _videoPlayerController2;
-  ChewieController _chewieController;
+  TargetPlatform? _platform;
+  late VideoPlayerController _videoPlayerController1;
+  late VideoPlayerController _videoPlayerController2;
+  ChewieController? _chewieController;
 
   @override
   void initState() {
@@ -61,7 +61,7 @@ class _ChewieDemoState extends State<ChewieDemo> {
   void dispose() {
     _videoPlayerController1.dispose();
     _videoPlayerController2.dispose();
-    _chewieController.dispose();
+    _chewieController!.dispose();
     super.dispose();
   }
 
@@ -82,9 +82,9 @@ class _ChewieDemoState extends State<ChewieDemo> {
         // ignore: missing_return
         onWillPop: () async {
           if (_chewieController != null) {
-            _chewieController.exitFullScreen();
+            _chewieController!.exitFullScreen();
           }
-        },
+        } as Future<bool> Function()?,
         child: Scaffold(
 //          appBar: AppBar(
 //            title: Text(widget.title),
@@ -94,7 +94,7 @@ class _ChewieDemoState extends State<ChewieDemo> {
               Expanded(
                 child: Center(
                   child: Chewie(
-                    controller: _chewieController,
+                    controller: _chewieController!,
                   ),
                 ),
               ),

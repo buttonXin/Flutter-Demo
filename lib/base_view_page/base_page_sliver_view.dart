@@ -7,18 +7,18 @@ import 'package:flutter_github_demo/widget/base/new_view_util.dart';
 
 // ignore: must_be_immutable
 class BasePageSliver extends StatefulWidget {
-  String childBackText;
+  String? childBackText;
 
   // 是否需要返回键,默认true 需要。
   bool hasBackIcon;
 
   // 头部的icon
-  String userChildTopIcon;
+  String? userChildTopIcon;
 
   // 头像点击事件
-  Function userChildTopIconOnTap;
-  Widget childCenter;
-  Widget bottomChild;
+  Function? userChildTopIconOnTap;
+  Widget? childCenter;
+  Widget? bottomChild;
 
   // 最下面的bottom需要占据剩余的全部空间吗？ 默认false 不占据.
   bool bottomExpanded;
@@ -28,12 +28,12 @@ class BasePageSliver extends StatefulWidget {
 
   // ignore: sort_constructors_first
   BasePageSliver({
-    @required this.childCenter,
-    this.childBackText,
-    this.userChildTopIcon,
-    this.userChildTopIconOnTap,
+     this.childCenter,
+     this.childBackText,
+     this.userChildTopIcon,
+     this.userChildTopIconOnTap,
     this.hasBackIcon = true,
-    this.bottomChild,
+     this.bottomChild,
     this.bottomExpanded = false,
     this.needBottomPadding = true,
   });
@@ -91,7 +91,7 @@ class _BasePageSliverState extends State<BasePageSliver> {
             ? () {
                 Navigator.pop(context);
               }
-            : null,
+            : (){},
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
           child: Row(
@@ -112,7 +112,7 @@ class _BasePageSliverState extends State<BasePageSliver> {
               else
                 Container(),
               Text(
-                widget.childBackText,
+                widget.childBackText!,
                 style: TextStyle(
                     fontWeight: FontWeight.bold, fontSize: 25, color: _color),
 //                  TextStyle(color: Colors.white,fontSize: 24,fontWeight: FontWeight.bold)
@@ -156,7 +156,7 @@ class _BasePageSliverState extends State<BasePageSliver> {
     // 未登录
     if (widget.userChildTopIcon == null) {
       return GestureDetector(
-        onTap: widget.userChildTopIconOnTap,
+        onTap: widget.userChildTopIconOnTap as void Function()?,
         child: const CircleAvatar(
           backgroundImage: AssetImage('resource/images/user_default.png'),
           radius: 25,
@@ -165,7 +165,7 @@ class _BasePageSliverState extends State<BasePageSliver> {
     }
 
     return GestureDetector(
-      onTap: widget.userChildTopIconOnTap,
+      onTap: widget.userChildTopIconOnTap as void Function()?,
       child: CachedNetworkImage(
           imageUrl: widget.userChildTopIcon ?? '',
           placeholder: (BuildContext context, String str) {
@@ -202,20 +202,20 @@ class _BasePageSliverState extends State<BasePageSliver> {
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   _SliverAppBarDelegate({
-    @required this.minHeight,
-    @required this.maxHeight,
-    @required this.child,
+     this.minHeight,
+     this.maxHeight,
+     this.child,
   });
 
-  final double minHeight;
-  final double maxHeight;
-  final Widget child;
+  final double? minHeight;
+  final double? maxHeight;
+  final Widget? child;
 
   @override
-  double get minExtent => minHeight;
+  double get minExtent => minHeight!;
 
   @override
-  double get maxExtent => max(maxHeight, minHeight);
+  double get maxExtent => max(maxHeight!, minHeight!);
 
   @override
   Widget build(

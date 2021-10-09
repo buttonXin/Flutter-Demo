@@ -10,14 +10,14 @@ enum CompareType {
 
 /// 获取包名以及类型的结果
 class PkgNameTypeResult {
-  CompareType compareType;
-  String servicePkg;
-  String nebulaPkg;
+  CompareType? compareType;
+  String? servicePkg;
+  String? nebulaPkg;
 }
 
 class PackageNameUtil {
   /// 通过model与pkgName的结果来显示不同的内容
-  PkgNameTypeResult getPkgNameTypeResult({String model, String nebulaPkgName}) {
+  PkgNameTypeResult getPkgNameTypeResult({String? model, String? nebulaPkgName}) {
     final Map<String, Map<String, String>> allMap = {};
 
     const String _nebula = 'ai.nreal.nebula';
@@ -40,10 +40,10 @@ class PackageNameUtil {
     // model是否在集合中
     if (allMap.keys.contains(model)) {
       // 获取当前model对应的nebula和service的包名。
-      final Map<String, String> eachModelMap = allMap[model];
+      final Map<String, String> eachModelMap = allMap[model!]!;
       // 如果key中存在当前的包名，则表示一一对应。
       if (eachModelMap.keys.contains(nebulaPkgName)) {
-        pkgNameTypeResult.servicePkg = eachModelMap[nebulaPkgName];
+        pkgNameTypeResult.servicePkg = eachModelMap[nebulaPkgName!];
       } else {
         // 不在集合中， 表示安装的包名不对，需要卸载。
         pkgNameTypeResult.compareType = CompareType.uninstall;

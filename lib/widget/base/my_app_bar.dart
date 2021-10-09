@@ -8,11 +8,11 @@ class CustomAppbar extends StatefulWidget implements PreferredSizeWidget {
   final double contentHeight; //从外部指定高度
   Color navigationBarBackgroundColor; //设置导航栏背景的颜色
   Widget leadingWidget;
-  Widget trailingWidget;
+  Widget? trailingWidget;
   String title;
   CustomAppbar({
-    @required this.leadingWidget,
-    @required this.title,
+    required this.leadingWidget,
+    required this.title,
     this.contentHeight = 44,
     this.navigationBarBackgroundColor = Colors.white,
     this.trailingWidget,

@@ -7,7 +7,7 @@ import 'new_view_util.dart';
 // ignore: must_be_immutable
 class BaseCommonPageView extends StatefulWidget {
   String childBackText;
-  String childTopTitleText;
+  String? childTopTitleText;
 
   // 是否需要头像，默认false 不需要
   bool isUserAvatar;
@@ -16,9 +16,9 @@ class BaseCommonPageView extends StatefulWidget {
   String userChildTopIcon;
 
   // 头像点击事件
-  Function userChildTopIconOnTap;
+  Function? userChildTopIconOnTap;
   Widget childCenter;
-  Widget bottomChild;
+  Widget? bottomChild;
 
   // 最下面的bottom需要占据剩余的全部空间吗？ 默认false 不占据.
   bool bottomExpanded;
@@ -28,7 +28,7 @@ class BaseCommonPageView extends StatefulWidget {
 
   // ignore: sort_constructors_first
   BaseCommonPageView({
-    @required this.childCenter,
+    required this.childCenter,
     this.childBackText= 'title',
     this.childTopTitleText,
     this.userChildTopIcon = '',
@@ -102,7 +102,7 @@ class _BaseCommonPageViewState extends State<BaseCommonPageView> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            widget.childTopTitleText,
+            widget.childTopTitleText!,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
           ),
           _buildUserAvatarView()
@@ -134,7 +134,7 @@ class _BaseCommonPageViewState extends State<BaseCommonPageView> {
                 widget.childBackText,
                 style: Theme.of(context)
                     .textTheme
-                    .headline5
+                    .headline5!
                     .apply(color: Colors.black)
                     .apply(fontWeightDelta: 3),
 //                  TextStyle(color: Colors.white,fontSize: 24,fontWeight: FontWeight.bold)
@@ -177,7 +177,7 @@ class _BaseCommonPageViewState extends State<BaseCommonPageView> {
     // 未登录
     if (widget.userChildTopIcon == null) {
       return GestureDetector(
-        onTap: widget.userChildTopIconOnTap,
+        onTap: widget.userChildTopIconOnTap as void Function()?,
         child: const CircleAvatar(
           backgroundImage: AssetImage('resource/images/user_default.png'),
           radius: 25,
@@ -186,7 +186,7 @@ class _BaseCommonPageViewState extends State<BaseCommonPageView> {
     }
 
     return GestureDetector(
-      onTap: widget.userChildTopIconOnTap,
+      onTap: widget.userChildTopIconOnTap as void Function()?,
       child: CachedNetworkImage(
           imageUrl: widget.userChildTopIcon ?? '',
           placeholder: (BuildContext context, String str) {
@@ -212,8 +212,8 @@ class _BaseCommonPageViewState extends State<BaseCommonPageView> {
 }
 
 class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
-  String childBackText;
-  String childTopTitleText;
+  String? childBackText;
+  String? childTopTitleText;
 
   MyAppBar({this.childBackText, this.childTopTitleText});
 
@@ -262,7 +262,7 @@ class _MyAppBarState extends State<MyAppBar> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              widget.childTopTitleText,
+              widget.childTopTitleText!,
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
             ),
             // _buildUserAvatarView()
@@ -297,10 +297,10 @@ class _MyAppBarState extends State<MyAppBar> {
                 child: Icon(Icons.arrow_back_outlined),
               ),
               Text(
-                widget.childBackText,
+                widget.childBackText!,
                 style: Theme.of(context)
                     .textTheme
-                    .headline5
+                    .headline5!
                     .apply(color: Colors.white)
                     .apply(fontWeightDelta: 3),
 //                  TextStyle(color: Colors.white,fontSize: 24,fontWeight: FontWeight.bold)

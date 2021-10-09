@@ -13,7 +13,7 @@ class _ProviderDemoState extends State<ProviderDemo> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<NumberModel>(
         create: (BuildContext context) => NumberModel(),
-        builder: (BuildContext context, Widget snapshot) {
+        builder: (BuildContext context, Widget? snapshot) {
           final NumberModel model = context.watch<NumberModel>();
           return BaseCommonPageView(
               childBackText: '测试Provider',

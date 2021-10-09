@@ -7,12 +7,12 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 /// 浏览器的page
 class WebViewPage extends StatefulWidget {
-  WebViewPage({Key key, this.path, this.initUrl = 'https://www.nreal.ai/h5/nebula/privacy-policy/?lang=en', this.title = 'demo'})
+  WebViewPage({Key? key, this.path, this.initUrl = 'https://www.nreal.ai/h5/nebula/privacy-policy/?lang=en', this.title = 'demo'})
       : super(key: key);
 
   /// path 和initUrl 最少传一个。
   /// 本地地址
-  final String path;
+  final String? path;
 
   /// h5的地址
   final String initUrl;
@@ -28,7 +28,7 @@ class WebViewPage extends StatefulWidget {
 
 class _WebViewPageState extends State<WebViewPage> {
   //
-  WebViewController _webViewController;
+  late WebViewController _webViewController;
 
   // 如果当前用户点击了html里的2个链接，则返回的时候，_listUrl不为空，则直接返回第一页显示的内容。
   final List<String> _listUrl = <String>[];
@@ -85,7 +85,7 @@ class _WebViewPageState extends State<WebViewPage> {
     if (widget.path == null) {
       return;
     }
-    final String fileHtmlContents = await rootBundle.loadString(widget.path);
+    final String fileHtmlContents = await rootBundle.loadString(widget.path!);
     _webViewController.loadUrl(Uri.dataFromString(fileHtmlContents,
             mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
         .toString());

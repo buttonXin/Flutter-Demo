@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_github_demo/util/http_download_file.dart';
-import 'package:install_plugin/install_plugin.dart';
+// import 'package:install_plugin/install_plugin.dart';
 
 class DownloadFilePage extends StatefulWidget {
   @override
@@ -75,7 +75,7 @@ class DownloadItem extends StatefulWidget {
 }
 
 class _DownloadItemState extends State<DownloadItem> {
-  StreamController<DownloadResult> controller;
+  StreamController<DownloadResult?>? controller;
 
   @override
   void initState() {
@@ -91,14 +91,14 @@ class _DownloadItemState extends State<DownloadItem> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<DownloadResult>(
+    return StreamBuilder<DownloadResult?>(
         stream: controller?.stream,
         builder: (context, snapshot) {
           Widget child = getWidget(snapshot);
           return RaisedButton(
             onPressed: () {
-              controller = HttpDownloadFile()
-                  .startDownloadFile(widget.url, "asd.12.as.as.apkpure${widget.name}.apk");
+              controller = HttpDownloadFile().startDownloadFile(
+                  widget.url, "asd.12.as.as.apkpure${widget.name}.apk") as StreamController<DownloadResult?>?;
               print('lao_gao-->sss ${controller}');
               setState(() {});
             },
@@ -107,39 +107,40 @@ class _DownloadItemState extends State<DownloadItem> {
         });
   }
 
-  Widget getWidget(AsyncSnapshot<DownloadResult> snapshot) {
+  Widget getWidget(AsyncSnapshot<DownloadResult?> snapshot) {
     print('lao_gao-->222 ${snapshot}');
-    if (snapshot.data == null || snapshot.data.downloadStatus == DownloadStatus.init) {
+    if (snapshot.data == null ||
+        snapshot.data!.downloadStatus == DownloadStatus.init) {
       return Row(
         children: [
           Text("点击下载${widget.name}"),
         ],
       );
-    } else if (snapshot.data.downloadStatus == DownloadStatus.complete) {
-      print('lao_gao-->_DownloadItemState_getWidget_${snapshot.data.fileName}');
-      InstallPlugin.installApk(snapshot.data.fileName, 'com.laogao.flutter_github_demo')
-          .then((result) {
-        print('install apk $result');
-      }).catchError((error) {
-        print('install apk error: $error');
-      });
+    } else if (snapshot.data!.downloadStatus == DownloadStatus.complete) {
+      print('lao_gao-->_DownloadItemState_getWidget_${snapshot.data!.fileName}');
+      // InstallPlugin.installApk(snapshot.data.fileName, 'com.laogao.flutter_github_demo')
+      //     .then((result) {
+      //   print('install apk $result');
+      // }).catchError((error) {
+      //   print('install apk error: $error');
+      // });
       return Row(
         children: [
           Text("下载完成${widget.name}"),
         ],
       );
-    } else if (snapshot.data.downloadStatus == DownloadStatus.cancel) {
+    } else if (snapshot.data!.downloadStatus == DownloadStatus.cancel) {
       return Row(
         children: [
           Text("已取消下载${widget.name}"),
         ],
       );
-    } else if (snapshot.data.downloadStatus == DownloadStatus.loading) {
+    } else if (snapshot.data!.downloadStatus == DownloadStatus.loading) {
       return Row(
         children: [
           Text("下载中${widget.name}"),
           CircularProgressIndicator(
-            value: snapshot.data.progress,
+            value: snapshot.data!.progress,
           ),
         ],
       );

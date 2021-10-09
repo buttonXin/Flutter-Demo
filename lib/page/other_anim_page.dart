@@ -15,13 +15,13 @@ class ScaleTransitionPage extends StatefulWidget {
 class _ScaleTransitionPageState extends State<ScaleTransitionPage>
     with SingleTickerProviderStateMixin {
   //动画控制器
-  AnimationController controller;
-  Animation<double> animation;
+  late AnimationController controller;
+  late Animation<double> animation;
 
   final Image _normalButton = Image.asset('images/anim/enter_normal.png');
   final Image _pressedButton = Image.asset('images/anim/enter_pressed.png');
   Image _enterButton = Image.asset('images/anim/enter_button.png');
-  Image _selectorImage;
+  Image? _selectorImage;
   bool _buttonUp = false;
 
   @override

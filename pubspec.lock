@@ -293,13 +293,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.2"
-  flutter_gifimage:
-    dependency: "direct main"
-    description:
-      name: flutter_gifimage
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.0.1"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -331,6 +324,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.0"
+  get:
+    dependency: "direct main"
+    description:
+      name: get
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.3.8"
   glob:
     dependency: transitive
     description:
@@ -415,13 +415,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.1.0"
-  install_plugin:
-    dependency: "direct main"
-    description:
-      name: install_plugin
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.0.1"
   io:
     dependency: transitive
     description:
@@ -443,13 +436,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.0.1"
-  logger:
-    dependency: "direct main"
+  json_serializable:
+    dependency: "direct dev"
     description:
-      name: logger
+      name: json_serializable
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.0"
+    version: "4.1.4"
   logging:
     dependency: transitive
     description:

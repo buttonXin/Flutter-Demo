@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class DownloadStateView {
   static void show(
-      {@required BuildContext context, @required Stream<String> stream}) {
+      {required BuildContext context, required Stream<String> stream}) {
     //创建一个OverlayEntry对象
     OverlayEntry overlayEntry = new OverlayEntry(builder: (context) {
       //外层使用Positioned进行定位，控制在Overlay中的位置
       return StreamBuilder<String>(
           stream: stream,
           builder: (context, snapshot) {
-            String text = 'init';
+            String? text = 'init';
             switch (snapshot.data) {
               case 'add':
                 text = snapshot.data;
@@ -38,7 +38,7 @@ class DownloadStateView {
                       child: new Card(
                         child: new Padding(
                           padding: EdgeInsets.all(8),
-                          child: new Text(text),
+                          child: new Text(text!),
                         ),
                         color: Colors.grey,
                       ),
@@ -48,7 +48,7 @@ class DownloadStateView {
           });
     });
     //往Overlay中插入插入OverlayEntry
-    Overlay.of(context).insert(overlayEntry);
+    Overlay.of(context)!.insert(overlayEntry);
     //两秒后，移除Toast
 
     stream.listen((event) {
@@ -63,19 +63,19 @@ class DownloadStateView {
 
 /// 从native层得到的数据
 class CheckResultData {
-  bool isUpdate;
+  bool? isUpdate;
 
-  String pid;
-  String packageName;
-  String updateVersionName;
+  String? pid;
+  String? packageName;
+  String? updateVersionName;
   int updateVersionCode;
 
   /// 收到download的action事件
-  String action;
+  String? action;
 
   CheckResultData(
       {this.isUpdate,
-      @required this.pid,
+      required this.pid,
       this.packageName,
       this.updateVersionName,
       this.action,

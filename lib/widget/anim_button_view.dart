@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AnimButtonView extends StatefulWidget {
-  final Function onTap;
+  final Function? onTap;
 
   // ignore: sort_constructors_first
-  const AnimButtonView({Key key, this.onTap}) : super(key: key);
+  const AnimButtonView({Key? key, this.onTap}) : super(key: key);
   @override
   _AnimButtonViewState createState() => _AnimButtonViewState();
 }
@@ -13,13 +13,13 @@ class AnimButtonView extends StatefulWidget {
 class _AnimButtonViewState extends State<AnimButtonView>
     with SingleTickerProviderStateMixin {
   //动画控制器
-  AnimationController controller;
-  Animation<double> animation;
+  late AnimationController controller;
+  late Animation<double> animation;
 
   final Image _normalButton = Image.asset('images/anim/enter_normal.png');
   final Image _pressedButton = Image.asset('images/anim/enter_pressed.png');
   final Image _enterButton = Image.asset('images/anim/enter_button.png');
-  Image _selectorImage;
+  late Image _selectorImage;
   bool _buttonUp = false;
 
   @override
@@ -118,7 +118,7 @@ class _AnimButtonViewState extends State<AnimButtonView>
                 });
               },
               onTap: () {
-                widget.onTap();
+                widget.onTap!();
               },
             ),
           ],

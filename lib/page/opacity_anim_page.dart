@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_github_demo/widget/anim/my_slide_transition.dart';
 
 class MyOpacityPage extends StatefulWidget {
-  final String title;
+  final String? title;
 
-  MyOpacityPage({Key key, this.title}) : super(key: key);
+  MyOpacityPage({Key? key, this.title}) : super(key: key);
 
   @override
   _MyOpacityPageState createState() => _MyOpacityPageState();
@@ -15,8 +15,8 @@ class _MyOpacityPageState extends State<MyOpacityPage>
   bool _visible = true;
 
   int _count = 0;
-  AnimationController controller;
-  Animation<double> animation;
+  late AnimationController controller;
+  late Animation<double> animation;
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _MyOpacityPageState extends State<MyOpacityPage>
     print('lao_gao___MyOpacityPageState_build_${controller.value}');
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title!),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

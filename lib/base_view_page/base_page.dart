@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 abstract class BasePage extends StatefulWidget {
-  const BasePage({Key key}) : super(key: key);
+  const BasePage({ Key? key}) : super(key: key);
 
   @override
   BasePageState createState() => getState();
@@ -13,7 +13,7 @@ abstract class BasePageState<T extends BasePage> extends State<T>
     with WidgetsBindingObserver {
   @override
   void initState() {
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
     super.initState();
   }
 

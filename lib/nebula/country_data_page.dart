@@ -14,15 +14,15 @@ class _CountryDataPageState extends State<CountryDataPage> {
     3: 'KO',
     4: 'US',
   };
-  int groupIndex;
+  int? groupIndex;
 
-  String countryData;
+  String? countryData;
 
   @override
   void initState() {
     super.initState();
     groupIndex = 1;
-    countryData = _map[groupIndex];
+    countryData = _map[groupIndex!];
   }
 
   @override
@@ -62,36 +62,36 @@ class _CountryDataPageState extends State<CountryDataPage> {
     return Column(
       children: [
         RadioListTile<int>(
-          title: Text(_map[1]),
+          title: Text(_map[1]!),
           value: 1,
           groupValue: groupIndex,
-          onChanged: (int e) => updateGroupValue(e),
+          onChanged: (int? e) => updateGroupValue(e),
         ),
         RadioListTile<int>(
-          title: Text(_map[2]),
+          title: Text(_map[2]!),
           value: 2,
           groupValue: groupIndex,
-          onChanged: (int e) => updateGroupValue(e),
+          onChanged: (int? e) => updateGroupValue(e),
         ),
         RadioListTile<int>(
-          title: Text(_map[3]),
+          title: Text(_map[3]!),
           value: 3,
           groupValue: groupIndex,
-          onChanged: (int e) => updateGroupValue(e),
+          onChanged: (int? e) => updateGroupValue(e),
         ),
         RadioListTile<int>(
-          title: Text(_map[4]),
+          title: Text(_map[4]!),
           value: 4,
           groupValue: groupIndex,
-          onChanged: (int e) => updateGroupValue(e),
+          onChanged: (int? e) => updateGroupValue(e),
         ),
       ],
     );
   }
 
   ///更新group的值,Radio的value==groupValue时候,则按钮选中
-  void updateGroupValue(int e) {
-    print('lao_gao-->_RadioButtonState_updateGroupValue_${_map[e]}');
+  void updateGroupValue(int? e) {
+    print('lao_gao-->_RadioButtonState_updateGroupValue_${_map[e!]}');
     setState(() {
       groupIndex = e;
     });

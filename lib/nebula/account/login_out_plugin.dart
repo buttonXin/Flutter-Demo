@@ -27,7 +27,7 @@ class LoginOutPlugin {
   }
 
   /// 登录
-  Future<void> login(String countryData) async {
+  Future<void> login(String? countryData) async {
     await const MethodChannel(_pluginName)
         .invokeMethod(_methodLogin, countryData);
   }
@@ -38,7 +38,7 @@ class LoginOutPlugin {
   }
 
   /// 更新数据
-  Future<void> updateUserInfo({Map<dynamic, dynamic> userMetadata}) async {
+  Future<void> updateUserInfo({Map<dynamic, dynamic>? userMetadata}) async {
     final Map<dynamic, dynamic> userMetadata = {};
     userMetadata['nickname'] = 'nickname2';
     userMetadata['gender'] = 'woman';
@@ -63,22 +63,22 @@ class LoginOutPlugin {
   void _onError(dynamic mapEvent) {}
 
   void _getUserInfo(dynamic event) {
-    final String error = event['error'];
+    final String? error = event['error'];
     if (error != null && error.isNotEmpty) {
       print('lao_gao-->LoginOutPlugin__onEvent_$error');
       return;
     }
-    final String email = event['email'];
+    final String? email = event['email'];
     final Map<dynamic, dynamic> userMetadata = event['userMetadata'];
-    String nickname = userMetadata['nickname'];
-    String gender = userMetadata['gender'];
-    double distance = userMetadata['distance'];
-    double birth = userMetadata['birth'];
+    String? nickname = userMetadata['nickname'];
+    String? gender = userMetadata['gender'];
+    double? distance = userMetadata['distance'];
+    double? birth = userMetadata['birth'];
     print('lao_gao-->LoginOutPlugin__onEvent_${event.toString()}');
   }
 
   void _updateUserInfo(dynamic event) {
-    final String error = event['error'];
+    final String? error = event['error'];
     if (error != null && error.isNotEmpty) {
       print('lao_gao-->LoginOutPlugin__onEvent_$error');
       return;

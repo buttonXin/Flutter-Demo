@@ -10,7 +10,7 @@ Function debounce(
   Function func, [
   Duration delay = const Duration(milliseconds: 2000),
 ]) {
-  Timer timer;
+  Timer? timer;
   Function target = () {
     if (timer?.isActive ?? false) {
       timer?.cancel();
@@ -30,10 +30,10 @@ Function debounce(
 /// debounce(() {}, 2)
 /// ```
 Function debounce2(Function _fn, int delay) {
-  Timer _time;
+  Timer? _time;
   return () {
     if (_time != null) {
-      _time.cancel();
+      _time!.cancel();
       _time = Timer(Duration(milliseconds: delay * 1000), () {
         _fn();
       });
@@ -45,12 +45,12 @@ Function debounce2(Function _fn, int delay) {
   };
 }
 
-DateTime lastPopTime;
+DateTime? lastPopTime;
 
 bool fastClick() {
   // 防重复提交
   if (lastPopTime == null ||
-      DateTime.now().difference(lastPopTime) > Duration(seconds: 2)) {
+      DateTime.now().difference(lastPopTime!) > Duration(seconds: 2)) {
     lastPopTime = DateTime.now();
     return false;
   } else {

@@ -6,10 +6,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_github_demo/base_view_page/sticky_page.dart';
 import 'package:flutter_github_demo/compile/country_iso_page.dart';
 import 'package:flutter_github_demo/compile/web_view_page.dart';
+import 'package:flutter_github_demo/init/dependency_injection.dart';
 import 'package:flutter_github_demo/page/download_file_page.dart';
 import 'package:flutter_github_demo/page/other_anim_page.dart';
+import 'package:get/get.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 
+import 'compile/retrofit_demo/view.dart';
 import 'nebula/user_info_page.dart';
 import 'page/authority_page.dart';
 import 'page/image_animation_page.dart';
@@ -20,7 +23,11 @@ import 'page/toast_page.dart';
 import 'page/video/video2_page.dart';
 import 'page/video/video3_page.dart';
 
-void main() {
+void main() async{
+  //  初始化操作
+
+  await DependencyInjection.init();
+
   runApp(MyApp());
   //设置Android底部的导航栏透明
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -28,13 +35,34 @@ void main() {
       statusBarBrightness: Brightness.dark));
 }
 
+final Map<String, Widget> pluginSdkMap = <String, Widget>{
+  '缓存图片框架': CacheNetworkImage(),
+  '个人中心': UserInfoPage(),
+  'CountryData': CountryIsoPage(),
+  'BaseViewDemo1': StickyPage(),
+  'PopupWindow': PopupWindowPage(),
+  'viewPager': MyViewPager(),
+  'button动画': MyOpacityPage(
+    title: '555',
+  ),
+  'Otherbutton动画': ScaleTransitionPage(),
+  'SliderPage滑动条界面': SliderPage(),
+  'webview': WebViewPage(),
+  'dio下载文件': DownloadFilePage(),
+  '帧动画页面': ImageAnimationPage(),
+  '权限申请的页面': AuthorityPage(),
+  '开源video2Chewie页面': ChewieDemo(),
+  '原生的video页面': VideoPage(),
+  'toast页面': ToastPage(),
+  'RetrofitDemoPage': RetrofitDemoPage(),
+};
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
 
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       home: MyPubspecPage(),
     );
@@ -82,7 +110,8 @@ class _MySplashPageState extends State<MySplashPage> {
 
 /// 使用的第三方在这里进行测试
 class MyPubspecPage extends StatefulWidget {
-  static GlobalKey<NavigatorState> navigatorState =  GlobalKey();
+  static GlobalKey<NavigatorState> navigatorState = GlobalKey();
+
   @override
   _MyPubspecPageState createState() => _MyPubspecPageState();
 }
@@ -91,32 +120,11 @@ class _MyPubspecPageState extends State<MyPubspecPage>
     with WidgetsBindingObserver {
   StreamController<String> _controller = new StreamController.broadcast();
 
-
   int count = 0;
 
   @override
   Widget build(BuildContext context) {
     print('lao_gao--> build');
-    final pluginSdkMap = <String, Function>{
-      "缓存图片框架": (context) => CacheNetworkImage(),
-      '个人中心': (context) => UserInfoPage(),
-      "CountryData": (context) => CountryIsoPage(),
-      "BaseViewDemo1": (context) => StickyPage(),
-      "PopupWindow": (context) => PopupWindowPage(),
-      "viewPager": (context) => MyViewPager(),
-      'button动画': (context) => MyOpacityPage(
-            title: '555',
-          ),
-      "Otherbutton动画": (context) => ScaleTransitionPage(),
-      "SliderPage滑动条界面": (context) => SliderPage(),
-      "webview": (context) => WebViewPage(),
-      "dio下载文件": (context) => DownloadFilePage(),
-      "帧动画页面": (context) => ImageAnimationPage(),
-      "权限申请的页面": (context) => AuthorityPage(),
-      "开源video2Chewie页面": (context) => ChewieDemo(),
-      "原生的video页面": (context) => VideoPage(),
-      "toast页面": (context) => ToastPage(),
-    };
 
     return Scaffold(
       key: MyPubspecPage.navigatorState,
@@ -129,13 +137,15 @@ class _MyPubspecPageState extends State<MyPubspecPage>
           itemCount: pluginSdkMap.length,
           separatorBuilder: (BuildContext context, int index) => Divider(),
           itemBuilder: (BuildContext context, int index) {
-            var title = pluginSdkMap.keys.toList()[index];
+            final String title = pluginSdkMap.keys.toList()[index];
             return ListTile(
               title: Text(title),
               onTap: () {
                 if (pluginSdkMap[title] != null) {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: pluginSdkMap[title]));
+                  Navigator.push(context,
+                      MaterialPageRoute<dynamic>(builder: (_) {
+                    return pluginSdkMap[title]!;
+                  }));
                 }
               },
             );
@@ -169,7 +179,7 @@ class _MyPubspecPageState extends State<MyPubspecPage>
   void initState() {
 //    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     print('lao_gao--> initState');
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
 
     final inMicroseconds2 = const Duration(seconds: 60).inMicroseconds;
     print('lao_gao-->_MyPubspecPageState_initState_$inMicroseconds2');
@@ -210,7 +220,7 @@ class _MyPubspecPageState extends State<MyPubspecPage>
   @override
   void dispose() {
     print('lao_gao--> dispose}');
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 }

@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class ShadowBgView extends StatefulWidget {
-  final Function onTap;
+  final Function? onTap;
   final Text text;
-  final double vertical;
+  final double? vertical;
 
-  final double horizontal;
+  final double? horizontal;
 
   // ignore: sort_constructors_first
   ShadowBgView({
-    Key key,
+    Key? key,
     this.onTap,
-    @required this.text,
+    required this.text,
     this.vertical,
     this.horizontal,
   }) : super(key: key);
@@ -22,11 +22,11 @@ class ShadowBgView extends StatefulWidget {
 }
 
 class _ShadowBgViewState extends State<ShadowBgView> {
-  BoxDecoration _defaultBoxDecoration;
+  BoxDecoration? _defaultBoxDecoration;
 
-  BoxDecoration _clickBoxDecoration;
+  BoxDecoration? _clickBoxDecoration;
 
-  BoxDecoration _boxDecoration;
+  BoxDecoration? _boxDecoration;
 
   @override
   void initState() {
@@ -60,7 +60,7 @@ class _ShadowBgViewState extends State<ShadowBgView> {
       child: Column(
         children: [
           GestureDetector(
-            onTap: widget.onTap,
+            onTap: widget.onTap as void Function()?,
             onTapDown: (TapDownDetails details) => {
               setState(() {
                 _boxDecoration = _clickBoxDecoration;
@@ -79,7 +79,7 @@ class _ShadowBgViewState extends State<ShadowBgView> {
             child: Container(
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.symmetric(
-                  vertical: widget.vertical, horizontal: widget.horizontal),
+                  vertical: widget.vertical!, horizontal: widget.horizontal!),
               margin: const EdgeInsets.only(bottom: 15),
               decoration: _boxDecoration,
               child: Row(
