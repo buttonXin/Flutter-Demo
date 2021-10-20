@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_github_demo/model/base_model.dart';
+import 'package:flutter_github_demo/model/nebula_base_model.dart';
 import 'package:get/get.dart';
 
 class DependencyInjection {
@@ -13,6 +14,12 @@ class DependencyInjection {
       _dio.interceptors.add(LogInterceptor());
     }
     Get.put(RestClient(_dio));
+
+
+    Get.put(NebulaRestClient(_dio));
+
+
+
 
     // other init
   }

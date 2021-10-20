@@ -39,11 +39,11 @@ class _WOActionImageState extends State<FrameImageAnimation> {
     }
 
     setState(() {
-      if (_imageIndex! >= widget.imageAssets.length) {
+      if (_imageIndex>= widget.imageAssets.length) {
         _imageIndex = 0;
       }
       _container = Container(
-          child: Image.asset(widget.imageAssets[_imageIndex!]),
+          child: Image.asset(widget.imageAssets[_imageIndex]),
           height: widget.height,
           width: widget.width);
       _imageIndex++;

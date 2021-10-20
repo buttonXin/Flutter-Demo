@@ -8,6 +8,7 @@ import 'package:flutter_github_demo/compile/country_iso_page.dart';
 import 'package:flutter_github_demo/compile/web_view_page.dart';
 import 'package:flutter_github_demo/init/dependency_injection.dart';
 import 'package:flutter_github_demo/page/download_file_page.dart';
+import 'package:flutter_github_demo/page/feedback.dart';
 import 'package:flutter_github_demo/page/other_anim_page.dart';
 import 'package:get/get.dart';
 import 'package:preload_page_view/preload_page_view.dart';
@@ -55,6 +56,7 @@ final Map<String, Widget> pluginSdkMap = <String, Widget>{
   '原生的video页面': VideoPage(),
   'toast页面': ToastPage(),
   'RetrofitDemoPage': RetrofitDemoPage(),
+  '测试launcher': LauncherPage(),
 };
 
 class MyApp extends StatelessWidget {

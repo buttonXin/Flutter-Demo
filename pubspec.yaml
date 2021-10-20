@@ -83,6 +83,8 @@ dependencies:
   #  测试新构建的模块
   # ------------
   get: 4.3.8
+  #  flutter pub run build_runner build
+  #  执行自动生成
   retrofit: ^2.0.0
 #  logger: ^1.0.0
 

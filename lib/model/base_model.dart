@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -6,6 +5,8 @@ import 'package:retrofit/retrofit.dart';
 
 part 'base_model.g.dart';
 
+/// 增加接口后，需要在命令行执行： flutter pub run build_runner build
+///
 @RestApi(baseUrl: 'https://nreal-public.nreal.ai/android/nebula/')
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
@@ -16,7 +17,8 @@ abstract class RestClient {
   @GET('/app_data_DT.json')
   Future<HttpResult> getAppListData();
 
-
+  @GET('{pathUrl}')
+  Future<HttpResult> getAppListForPathData(@Path('pathUrl') String url);
 }
 
 @JsonSerializable()
@@ -38,6 +40,7 @@ class HttpResult {
     return 'HttpResult{success: $success, data: $data, errorCode: $errorCode, errorMsg: $errorMsg}';
   }
 }
+
 class InitDataBean {
   InitDataBean({
     this.versionInfo,
@@ -52,24 +55,20 @@ class InitDataBean {
   List<WebAppInfo>? webAppList;
 
   factory InitDataBean.fromJson(Map<String, dynamic> json) => InitDataBean(
-      versionInfo: VersionInfo.fromJson(json['versionInfo']),
-      obb: json['obb'],
-      operatorAppList: json['operatorAppList'] == null
-      ? []
-          : List<OperatorAppInfo>.from(json['operatorAppList']
-      .map((x) => OperatorAppInfo.fromJson(x))),
-  webAppList: json['webAppList'] == null
-  ? []
-      : List<WebAppInfo>.from(
-  json['webAppList'].map((x) => WebAppInfo.fromJson(x))),
-  );
+        versionInfo: VersionInfo.fromJson(json['versionInfo']),
+        obb: json['obb'],
+        operatorAppList: List<OperatorAppInfo>.from(
+            json['operatorAppList'].map((x) => OperatorAppInfo.fromJson(x))),
+        webAppList: List<WebAppInfo>.from(
+            json['webAppList'].map((x) => WebAppInfo.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    'versionInfo': versionInfo!.toJson(),
-    'obb': obb,
-    'operatorAppList':
-    List<dynamic>.from(operatorAppList!.map((x) => x.toJson())),
-  };
+        'versionInfo': versionInfo!.toJson(),
+        'obb': obb,
+        'operatorAppList':
+            List<dynamic>.from(operatorAppList!.map((x) => x.toJson())),
+      };
 
   @override
   String toString() {
@@ -96,10 +95,10 @@ class OperatorAppInfo {
       );
 
   Map<String, dynamic> toJson() => {
-    'operator': operator,
-    'code': code,
-    'listUrl': listUrl,
-  };
+        'operator': operator,
+        'code': code,
+        'listUrl': listUrl,
+      };
 
   @override
   String toString() {
@@ -117,14 +116,14 @@ class WebAppInfo {
   String? listUrl;
 
   factory WebAppInfo.fromJson(Map<String, dynamic> json) => WebAppInfo(
-    countryIso: json['countryIso'],
-    listUrl: json['listUrl'],
-  );
+        countryIso: json['countryIso'],
+        listUrl: json['listUrl'],
+      );
 
   Map<String, dynamic> toJson() => {
-    'countryIso': countryIso,
-    'listUrl': listUrl,
-  };
+        'countryIso': countryIso,
+        'listUrl': listUrl,
+      };
 
   @override
   String toString() {
@@ -154,52 +153,37 @@ class VersionInfo {
   bool? otherModel;
 
   factory VersionInfo.fromJson(Map<String, dynamic> json) => VersionInfo(
-      kddiServiceModels: json['kddiServiceModels'] == null
-      ? []
-          : List<String>.from(json['kddiServiceModels'].map((x) => x)),
-  serviceModels: json['serviceModels'] == null
-  ? []
-      : List<String>.from(json['serviceModels'].map((x) => x)),
-  whiteModels: json['whiteModels'] == null
-  ? []
-      : List<String>.from(json['whiteModels'].map((x) => x)),
-  blackModels: json['blackModels'] == null
-  ? []
-      : List<String>.from(json['blackModels'].map((x) => x)),
-  weakBlackModels: json['weakBlackModels'] == null
-  ? []
-      : List<String>.from(json['weakBlackModels'].map((x) => x)),
-  otherModel: json['otherModel'],
-  nebula: List<NebulaBean>.from(
-  json['nebula'].map((x) => NebulaBean.fromJson(x))),
-  service: List<NebulaBean>.from(
-  json['service'].map((x) => NebulaBean.fromJson(x))),
-  );
+        kddiServiceModels:
+            List<String>.from(json['kddiServiceModels'].map((x) => x)),
+        serviceModels: List<String>.from(json['serviceModels'].map((x) => x)),
+        whiteModels: List<String>.from(json['whiteModels'].map((x) => x)),
+        blackModels: List<String>.from(json['blackModels'].map((x) => x)),
+        weakBlackModels:
+            List<String>.from(json['weakBlackModels'].map((x) => x)),
+        otherModel: json['otherModel'],
+        nebula: List<NebulaBean>.from(
+            json['nebula'].map((x) => NebulaBean.fromJson(x))),
+        service: List<NebulaBean>.from(
+            json['service'].map((x) => NebulaBean.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-  'kddiServiceModels': kddiServiceModels == null
-  ? []
-      : List<dynamic>.from(kddiServiceModels!.map((String x) => x)),
-  'serviceModels': serviceModels == null
-  ? []
-      : List<dynamic>.from(serviceModels!.map((String x) => x)),
-  'whiteModels': whiteModels == null
-  ? []
-      : List<dynamic>.from(whiteModels!.map((String x) => x)),
-  'blackModels': blackModels == null
-  ? []
-      : List<dynamic>.from(blackModels!.map((String x) => x)),
-  'weakBlackModels': weakBlackModels == null
-  ? []
-      : List<dynamic>.from(weakBlackModels!.map((String x) => x)),
-  'nebula': List<dynamic>.from(nebula!.map((x) => x.toJson())),
-  'service': List<dynamic>.from(service!.map((x) => x.toJson())),
-};
+        'kddiServiceModels':
+            List<dynamic>.from(kddiServiceModels!.map((String x) => x)),
+        'serviceModels':
+            List<dynamic>.from(serviceModels!.map((String x) => x)),
+        'whiteModels': List<dynamic>.from(whiteModels!.map((String x) => x)),
+        'blackModels': List<dynamic>.from(blackModels!.map((String x) => x)),
+        'weakBlackModels':
+            List<dynamic>.from(weakBlackModels!.map((String x) => x)),
+        'nebula': List<dynamic>.from(nebula!.map((x) => x.toJson())),
+        'service': List<dynamic>.from(service!.map((x) => x.toJson())),
+      };
 
-@override
-String toString() {
-  return 'VersionInfo{nebula: $nebula, service: $service}';
-}
+  @override
+  String toString() {
+    return 'VersionInfo{nebula: $nebula, service: $service}';
+  }
 }
 
 class NebulaBean {
@@ -220,26 +204,25 @@ class NebulaBean {
   String? googleUrl;
 
   factory NebulaBean.fromJson(Map<String, dynamic> json) => NebulaBean(
-    brand: json['brand'],
-    nebulaName: json['nebulaName'] ?? null,
-    serviceName: json['serviceName'] ?? null,
-    versionCode: json['versionCode'],
-    nebulaUrl: json['nebulaUrl'],
-    googleUrl: json['GoogleUrl'],
-  );
+        brand: json['brand'],
+        nebulaName: json['nebulaName'],
+        serviceName: json['serviceName'],
+        versionCode: json['versionCode'],
+        nebulaUrl: json['nebulaUrl'],
+        googleUrl: json['GoogleUrl'],
+      );
 
   Map<String, dynamic> toJson() => {
-    'brand': brand,
-    'nebulaName': nebulaName == null ? null : nebulaName,
-    'serviceName': serviceName == null ? null : serviceName,
-    'versionCode': versionCode,
-    'nebulaUrl': nebulaUrl,
-    'GoogleUrl': googleUrl,
-  };
+        'brand': brand,
+        'nebulaName': nebulaName,
+        'serviceName': serviceName,
+        'versionCode': versionCode,
+        'nebulaUrl': nebulaUrl,
+        'GoogleUrl': googleUrl,
+      };
 
   @override
   String toString() {
     return 'Nebula{brand: $brand, nebulaName: $nebulaName, serviceName: $serviceName, versionCode: $versionCode, nebulaUrl: $nebulaUrl, googleUrl: $googleUrl}';
   }
 }
-

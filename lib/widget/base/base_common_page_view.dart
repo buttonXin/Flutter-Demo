@@ -13,7 +13,7 @@ class BaseCommonPageView extends StatefulWidget {
   bool isUserAvatar;
 
   // 头部的icon
-  String userChildTopIcon;
+  late String userChildTopIcon;
 
   // 头像点击事件
   Function? userChildTopIconOnTap;
@@ -188,7 +188,7 @@ class _BaseCommonPageViewState extends State<BaseCommonPageView> {
     return GestureDetector(
       onTap: widget.userChildTopIconOnTap as void Function()?,
       child: CachedNetworkImage(
-          imageUrl: widget.userChildTopIcon ?? '',
+          imageUrl: widget.userChildTopIcon,
           placeholder: (BuildContext context, String str) {
             return const CircleAvatar(
               backgroundImage: AssetImage('resource/images/user_default.png'),
