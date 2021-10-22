@@ -29,8 +29,7 @@ Map<String, dynamic> _$HttpNebulaResultToJson(HttpNebulaResult instance) =>
 
 class _NebulaRestClient implements NebulaRestClient {
   _NebulaRestClient(this._dio, {this.baseUrl}) {
-    baseUrl ??=
-        'http://sequoia-api-test.nreal.work:31581/api/mrlab-appstore/rest/';
+    baseUrl ??= 'http://sequoia-api-test.nreal.work:31581/';
   }
 
   final Dio _dio;
@@ -39,31 +38,32 @@ class _NebulaRestClient implements NebulaRestClient {
 
   @override
   Future<HttpNebulaResult> getAppVersion(
-      currentVersionCode,
+      {currentVersionCode,
       currentServiceModel,
+      currentPackageName,
       hardwareCode,
       operatorCode,
       operatorCountryCode,
-      versionCode,
-      heads) async {
+      versionCode}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'currentVersionCode': currentVersionCode,
       r'currentServiceModel': currentServiceModel,
+      r'currentPackageName': currentPackageName,
       r'hardwareCode': hardwareCode,
       r'operatorCode': operatorCode,
       r'operatorCountryCode': operatorCountryCode,
       r'versionCode': versionCode
     };
+    queryParameters.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpNebulaResult>(Options(
-                method: 'GET',
-                headers: <String, dynamic>{r'Sequoia-Auth': heads},
-                extra: _extra)
-            .compose(_dio.options, '/admin/software/version/check',
-                queryParameters: queryParameters, data: _data)
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        _setStreamType<HttpNebulaResult>(
+            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+                .compose(_dio.options,
+                    'api/mrlab-appstore/isc/admin/software/version/check',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = HttpNebulaResult.fromJson(_result.data!);
     return value;
   }

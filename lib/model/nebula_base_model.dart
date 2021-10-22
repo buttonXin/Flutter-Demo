@@ -1,25 +1,27 @@
 import 'package:dio/dio.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:retrofit/retrofit.dart';
+
 part 'nebula_base_model.g.dart';
 
-/// 增加接口后，需要在命令行执行： flutter pub run build_runner build
+/// 增加接口后或者修改接口参数等操作后 ，需要在命令行执行： flutter pub run build_runner build
+/// ！！！！！！！！！
 @RestApi(
-    baseUrl: 'http://sequoia-api-test.nreal.work:31581/api/mrlab-appstore/rest/')
+    baseUrl: 'http://sequoia-api-test.nreal.work:31581/')
 abstract class NebulaRestClient {
   factory NebulaRestClient(Dio dio, {String baseUrl}) = _NebulaRestClient;
 
-  @GET('/admin/software/version/check')
-  Future<HttpNebulaResult> getAppVersion(
-      @Query('currentVersionCode') String currentVersionCode,
-      @Query('currentServiceModel') String currentServiceModel,
-      @Query('hardwareCode') String hardwareCode,
-      @Query('operatorCode') String operatorCode,
-      @Query('operatorCountryCode') String operatorCountryCode,
-      @Query('versionCode') String versionCode,
-      @Header('Sequoia-Auth') String heads
 
-      );
+  @GET('api/mrlab-appstore/isc/admin/software/version/check')
+  Future<HttpNebulaResult> getAppVersion({
+    @Query('currentVersionCode') required int? currentVersionCode,
+    @Query('currentServiceModel') required String? currentServiceModel,
+    @Query('currentPackageName') required String? currentPackageName,
+    @Query('hardwareCode') String? hardwareCode,
+    @Query('operatorCode') String? operatorCode,
+    @Query('operatorCountryCode') String? operatorCountryCode,
+    @Query('versionCode') int? versionCode,
+  });
 
   @GET('{pathUrl}')
   Future<HttpNebulaResult> getDataForUrl(@Path('pathUrl') String url);
