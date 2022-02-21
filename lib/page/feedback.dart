@@ -16,7 +16,7 @@ class _LauncherPageState extends State<LauncherPage> {
           child: FloatingActionButton(
             onPressed: () async {
 
-              String httpUrl = 'https://play.google.com/store/apps/details?id=ai.nreal.neubla';
+              String httpUrl = 'https://nreal-public.nreal.ai/android/nebula/apk/Nebula_Universal_v2.02.00.3_1018_api29_2in1_release.html';
               String phoneUrl = 'tel:18039125095';
               String smsUrl = 'sms:18039125095';
               String emailUrl = 'mailto:user_account_support@nreal.ai';

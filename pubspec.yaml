@@ -33,7 +33,7 @@ dependencies:
   #  图片放大缩小
   photo_view: ^0.11.1
   #  判断网络状态
-  connectivity: ^3.0.4
+  connectivity: ^3.0.6
   #  #  webview组件
   #  webview_flutter: ^0.3.22+1
   #  网络图片缓存
@@ -48,13 +48,14 @@ dependencies:
   #  toast组件
   fluttertoast: ^8.0.7
   #  动态权限申请
-  permission_handler: ^8.0.0+2
+  permission_handler: ^8.1.1
   #  视频组件
   video_player: ^2.1.1
   #  视频组件2
   chewie: ^1.0.0
   # 播放电话、sms、email
   url_launcher: ^6.0.4
+
   # 安装apk
   #  install_plugin: any
   #  加载gif图片

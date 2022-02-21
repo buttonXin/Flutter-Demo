@@ -7,6 +7,9 @@ import 'package:flutter_github_demo/widget/base/base_common_page_view.dart';
 import 'dart:ui' as ui;
 
 import 'package:flutter_github_demo/widget/custom_switch_title.dart';
+import 'package:get/get.dart';
+
+import 'retrofit_demo/logic.dart';
 
 class CountryIsoPage extends BasePage {
   @override
@@ -28,6 +31,8 @@ class _CountryIsoPageState extends BasePageState<CountryIsoPage> {
 
   String name = '';
 
+  final RetrofitDemoLogic logic = Get.find<RetrofitDemoLogic>();
+
   @override
   Widget buildWidget(BuildContext context) {
     return SafeArea(
@@ -47,6 +52,7 @@ class _CountryIsoPageState extends BasePageState<CountryIsoPage> {
               },
               showIcon: true,
               onTap: () {
+                logic.getInitData();
                 setState(() {
                   name = '$name-click-name';
                 });

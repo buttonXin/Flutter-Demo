@@ -96,7 +96,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
       onTap: () async {
         // const String url = 'https://nreal-public.nreal.ai/android/nebula/ai_nreal_nebula_jp_xperia.apk';
         const String url =
-            'https://nreal-public.nreal.ai/android/nebula/icon/11.html';
+            // 'https://nreal-public.nreal.ai/android/nebula/icon/11.html';
+            // 'https://nreal-public.nreal.ai/dev/android/nebula/apk/app-debug-demo.apk';
+            'https://nreal-public.nreal.ai/android/nebula/apk/Nebula_Universal_v2.02.00.3_1018_api29_2in1_release.html';
         // const String url = 'https://dl-tc.coolapkmarket.com/down/apk_file/2021/0309/aweme_douyin_and134_v1015_140902_d292_1615224769.apk?t=1615385877&sign=15e83a49756dec82c59dc3de06b293e9';
         // const String url = 'https://www.nreal.ai/page-data/nebula/page-data.json';
         if (await canLaunch(url)) {

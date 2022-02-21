@@ -28,9 +28,7 @@ Map<String, dynamic> _$HttpNebulaResultToJson(HttpNebulaResult instance) =>
 // **************************************************************************
 
 class _NebulaRestClient implements NebulaRestClient {
-  _NebulaRestClient(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'http://sequoia-api-test.nreal.work:31581/';
-  }
+  _NebulaRestClient(this._dio, {this.baseUrl});
 
   final Dio _dio;
 
@@ -44,7 +42,8 @@ class _NebulaRestClient implements NebulaRestClient {
       hardwareCode,
       operatorCode,
       operatorCountryCode,
-      versionCode}) async {
+      versionCode,
+      header = 'nebula'}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'currentVersionCode': currentVersionCode,
@@ -58,10 +57,27 @@ class _NebulaRestClient implements NebulaRestClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpNebulaResult>(Options(
+                method: 'GET',
+                headers: <String, dynamic>{r'Application': header},
+                extra: _extra)
+            .compose(
+                _dio.options, '/api/nebula/v1/isc/admin/software/version/check',
+                queryParameters: queryParameters, data: _data)
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = HttpNebulaResult.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<HttpNebulaResult> getDomainList() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpNebulaResult>(
             Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-                .compose(_dio.options,
-                    'api/mrlab-appstore/isc/admin/software/version/check',
+                .compose(_dio.options, '/serverlist',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = HttpNebulaResult.fromJson(_result.data!);

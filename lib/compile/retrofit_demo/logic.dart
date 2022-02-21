@@ -1,5 +1,6 @@
 import 'package:flutter_github_demo/model/app_update_info.dart';
 import 'package:flutter_github_demo/model/base_model.dart';
+import 'package:flutter_github_demo/model/domain_info_entity.dart';
 import 'package:flutter_github_demo/model/nebula_base_model.dart';
 import 'package:flutter_github_demo/util/L.dart';
 import 'package:get/get.dart';
@@ -8,23 +9,29 @@ class RetrofitDemoLogic extends GetxController {
   final RestClient client = Get.find<RestClient>();
   final NebulaRestClient clientNebula = Get.find<NebulaRestClient>();
 
+  @override
+  void dispose() {
+    Get.delete<RetrofitDemoLogic>(force: true);
+    super.dispose();
+  }
+
   void getInitData() {
     client.getInitData().then((HttpResult httpResult) {
-      L.e(httpResult.toString());
+      Log.e(httpResult.toString());
 
       final InitDataBean infoData = InitDataBean.fromJson(httpResult.data);
 
-      L.e(infoData.versionInfo!.nebula![0].nebulaName);
+      Log.e(infoData.versionInfo!.nebula![0].nebulaName);
 
-      L.e('ok');
+      Log.e('ok');
     });
 
-    L.e('line');
+    Log.e('line');
     client.getAppListData().then((HttpResult httpResult) {
       final Map<String, dynamic> data = httpResult.data;
 
-      L.e(data['app_list']);
-      L.e('ok');
+      Log.e(data['app_list']);
+      Log.e('ok');
     });
 
     client
@@ -32,14 +39,28 @@ class RetrofitDemoLogic extends GetxController {
             'https://nreal-public.nreal.ai/android/nebula/app_data_DT.json')
         .then((HttpResult httpResult) {
       final Map<String, dynamic> data = httpResult.data;
-      L.e('url-->');
+      Log.e('url-->');
       final data2 = data['app_list'];
-      L.e('url---> $data2');
-      L.e('ok');
+      Log.e('url---> $data2');
+      Log.e('ok');
     });
   }
 
-  void getVersion() {
+  void getDomainList() {
+    clientNebula
+        .getDataForUrl('https://api.nreal.ai/v2/serverlist')
+        .then((HttpNebulaResult result) {
+      Log.e('--getDomainList--> $result');
+
+      final DomainInfoEntity domainInfo2Entity =
+          DomainInfoEntity().fromJson(result.data);
+
+      Log.d('getDomainList_${domainInfo2Entity.others!.uat}');
+      Log.d('getDomainList_${domainInfo2Entity.nebula!.uat}');
+    });
+  }
+
+  void getNebulaData() {
     clientNebula
         .getAppVersion(
       currentVersionCode: 2,
@@ -50,13 +71,17 @@ class RetrofitDemoLogic extends GetxController {
       operatorCountryCode: null,
     )
         .then((HttpNebulaResult result) {
-      L.e('RetrofitDemoLogic.getVersion_${result.toString()}');
+      Log.e('RetrofitDemoLogic.getVersion_${result.toString()}');
       final AppUpdateInfo appUpdateInfo = AppUpdateInfo.fromJson(result.data);
 
-      L.e('RetrofitDemoLogic.getVersion_isUpgrade= ${appUpdateInfo.isUpgrade}');
-      L.e('RetrofitDemoLogic.getVersion_level ${appUpdateInfo.blacklistInfo!.level}');
-      L.e('RetrofitDemoLogic.getVersion_versionCode= ${appUpdateInfo.latestVersion!.versionCode ?? 0}');
-      L.e('RetrofitDemoLogic.getVersion_serviceVersionCode= ${appUpdateInfo.latestServicePackage!.versionCode ?? 0}');
+      Log.e(
+          'RetrofitDemoLogic.getVersion_isUpgrade= ${appUpdateInfo.isUpgrade}');
+      Log.e(
+          'RetrofitDemoLogic.getVersion_level ${appUpdateInfo.blacklistInfo!.level}');
+      Log.e(
+          'RetrofitDemoLogic.getVersion_versionCode= ${appUpdateInfo.latestVersion!.versionCode ?? 0}');
+      Log.e(
+          'RetrofitDemoLogic.getVersion_serviceVersionCode= ${appUpdateInfo.latestServicePackage!.versionCode ?? 0}');
     });
   }
 }

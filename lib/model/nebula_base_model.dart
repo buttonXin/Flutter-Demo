@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:retrofit/retrofit.dart';
@@ -6,13 +8,11 @@ part 'nebula_base_model.g.dart';
 
 /// 增加接口后或者修改接口参数等操作后 ，需要在命令行执行： flutter pub run build_runner build
 /// ！！！！！！！！！
-@RestApi(
-    baseUrl: 'http://sequoia-api-test.nreal.work:31581/')
+@RestApi()
 abstract class NebulaRestClient {
   factory NebulaRestClient(Dio dio, {String baseUrl}) = _NebulaRestClient;
 
-
-  @GET('api/mrlab-appstore/isc/admin/software/version/check')
+  @GET('/api/nebula/v1/isc/admin/software/version/check')
   Future<HttpNebulaResult> getAppVersion({
     @Query('currentVersionCode') required int? currentVersionCode,
     @Query('currentServiceModel') required String? currentServiceModel,
@@ -21,11 +21,21 @@ abstract class NebulaRestClient {
     @Query('operatorCode') String? operatorCode,
     @Query('operatorCountryCode') String? operatorCountryCode,
     @Query('versionCode') int? versionCode,
+    @Header('Application') String? header = 'nebula',
   });
+
+
+  @GET('/serverlist')
+  Future<HttpNebulaResult> getDomainList();
 
   @GET('{pathUrl}')
   Future<HttpNebulaResult> getDataForUrl(@Path('pathUrl') String url);
 }
+
+HttpNebulaResult httpNebulaResultFromJson(String str) =>
+    HttpNebulaResult.fromJson(json.decode(str));
+
+String httpNebulaResultToJson(HttpNebulaResult data) => json.encode(data.toJson());
 
 @JsonSerializable()
 class HttpNebulaResult {

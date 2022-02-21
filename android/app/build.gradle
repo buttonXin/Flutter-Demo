@@ -25,7 +25,7 @@ apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     lintOptions {
         disable 'InvalidPackage'
@@ -42,10 +42,10 @@ android {
         applicationId "com.laogao.flutter_github_demo"
 //        applicationId "ai.nreal.nebula.universal"
         minSdkVersion 28
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        ndk.abiFilters 'arm64-v8a'
+//        ndk.abiFilters 'arm64-v8a , x86'
         // auth0 的域名
         manifestPlaceholders = [auth0Domain: "@string/com_auth0_domain", auth0Scheme: "app"]
     }
@@ -109,4 +109,9 @@ dependencies {
 
     implementation("com.squareup.okhttp3:okhttp:4.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
+    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+
+
 }

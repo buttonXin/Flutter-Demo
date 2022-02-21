@@ -10,6 +10,8 @@ import 'package:flutter_github_demo/init/dependency_injection.dart';
 import 'package:flutter_github_demo/page/download_file_page.dart';
 import 'package:flutter_github_demo/page/feedback.dart';
 import 'package:flutter_github_demo/page/other_anim_page.dart';
+import 'package:flutter_github_demo/routes/app_pages.dart';
+import 'package:flutter_github_demo/routes/app_routes.dart';
 import 'package:get/get.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 
@@ -24,8 +26,9 @@ import 'page/toast_page.dart';
 import 'page/video/video2_page.dart';
 import 'page/video/video3_page.dart';
 
-void main() async{
+void main() async {
   //  初始化操作
+  WidgetsFlutterBinding.ensureInitialized();
 
   await DependencyInjection.init();
 
@@ -55,7 +58,7 @@ final Map<String, Widget> pluginSdkMap = <String, Widget>{
   '开源video2Chewie页面': ChewieDemo(),
   '原生的video页面': VideoPage(),
   'toast页面': ToastPage(),
-  'RetrofitDemoPage': RetrofitDemoPage(),
+  Routes.DevNebulaOptions: RetrofitDemoPage(),
   '测试launcher': LauncherPage(),
 };
 
@@ -67,6 +70,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter Demo',
       home: MyPubspecPage(),
+      getPages: AppPages.pages,
     );
   }
 }
@@ -93,6 +97,7 @@ class _MySplashPageState extends State<MySplashPage> {
 //    SystemChrome.setEnabledSystemUIOverlays([]);
     super.initState();
 
+    // Future.delayed(Duration.zero, () => DependencyInjection.init());
     Timer(
         Duration(milliseconds: 300),
         () => Navigator.of(context).pushReplacement(
@@ -143,6 +148,11 @@ class _MyPubspecPageState extends State<MyPubspecPage>
             return ListTile(
               title: Text(title),
               onTap: () {
+                if (title == Routes.DevNebulaOptions) {
+                  Get.toNamed(title);
+                  return;
+                }
+
                 if (pluginSdkMap[title] != null) {
                   Navigator.push(context,
                       MaterialPageRoute<dynamic>(builder: (_) {
