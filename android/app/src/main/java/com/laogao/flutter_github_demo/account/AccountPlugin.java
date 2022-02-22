@@ -1,6 +1,8 @@
 package com.laogao.flutter_github_demo.account;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
@@ -136,11 +138,20 @@ public class AccountPlugin implements FlutterPlugin, MethodChannel.MethodCallHan
         if (call.method.equalsIgnoreCase(_methodLogin)) {
 
             Toast.makeText(context, "login", Toast.LENGTH_SHORT).show();
-            countryData = (String) call.arguments;
-            if (TextUtils.isEmpty(countryData)) {
-                countryData = EU;
-            }
-            login();
+//            countryData = (String) call.arguments;
+//            if (TextUtils.isEmpty(countryData)) {
+//                countryData = EU;
+//            }
+//            login();
+
+            ComponentName cn = new ComponentName(context.getPackageName(),
+                    "com.laogao.flutter_github_demo.OtherProcessActivity");
+            Intent intent = new Intent();
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+            intent.setComponent(cn);
+
+            context.startActivity(intent);
+
             result.success("ok");
         } else if (call.method.equalsIgnoreCase(_methodLogout)) {
             logoutAuth0();

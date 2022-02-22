@@ -12,10 +12,12 @@ import 'package:flutter_github_demo/page/feedback.dart';
 import 'package:flutter_github_demo/page/other_anim_page.dart';
 import 'package:flutter_github_demo/routes/app_pages.dart';
 import 'package:flutter_github_demo/routes/app_routes.dart';
+import 'package:flutter_github_demo/with_me/test_page.dart';
 import 'package:get/get.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 
 import 'compile/retrofit_demo/view.dart';
+import 'nebula/country_data_page.dart';
 import 'nebula/user_info_page.dart';
 import 'page/authority_page.dart';
 import 'page/image_animation_page.dart';
@@ -42,7 +44,7 @@ void main() async {
 final Map<String, Widget> pluginSdkMap = <String, Widget>{
   '缓存图片框架': CacheNetworkImage(),
   '个人中心': UserInfoPage(),
-  'CountryData': CountryIsoPage(),
+  'CountryData': CountryDataPage(),
   'BaseViewDemo1': StickyPage(),
   'PopupWindow': PopupWindowPage(),
   'viewPager': MyViewPager(),
@@ -52,7 +54,8 @@ final Map<String, Widget> pluginSdkMap = <String, Widget>{
   'Otherbutton动画': ScaleTransitionPage(),
   'SliderPage滑动条界面': SliderPage(),
   'webview': WebViewPage(),
-  'dio下载文件': DownloadFilePage(),
+  // 'dio下载文件': DownloadFilePage(),
+  'dio下载文件': TestPage(),
   '帧动画页面': ImageAnimationPage(),
   '权限申请的页面': AuthorityPage(),
   '开源video2Chewie页面': ChewieDemo(),
@@ -65,9 +68,12 @@ final Map<String, Widget> pluginSdkMap = <String, Widget>{
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
 
+  static GlobalKey<NavigatorState> navigatorState = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      key: MyApp.navigatorState,
       title: 'Flutter Demo',
       home: MyPubspecPage(),
       getPages: AppPages.pages,
@@ -76,14 +82,17 @@ class MyApp extends StatelessWidget {
 }
 
 class MySplashPage extends StatefulWidget {
+  static GlobalKey<NavigatorState> navigatorState = GlobalKey();
   @override
   _MySplashPageState createState() => _MySplashPageState();
 }
 
 class _MySplashPageState extends State<MySplashPage> {
+
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: MySplashPage.navigatorState,
       child: Image(
         image: AssetImage('images/splash.png'),
         fit: BoxFit.fill,

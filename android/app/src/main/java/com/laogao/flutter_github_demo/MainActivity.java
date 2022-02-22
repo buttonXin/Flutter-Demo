@@ -40,5 +40,6 @@ public class MainActivity extends FlutterActivity {
 
         // 操作数据库
         flutterEngine.getPlugins().add(new AccountPlugin(this));
+
     }
 }

@@ -86,6 +86,16 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/My_Lock.Theme"></activity>
+
+
+        <activity
+            android:name=".OtherProcessActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleInstance"
+            android:process=":space"
+            android:theme="@style/My_Lock.Theme" />
+
+
     </application>
 
 </manifest>

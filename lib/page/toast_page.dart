@@ -5,6 +5,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_github_demo/widget/stagger.dart';
 import 'package:flutter_github_demo/widget/toast.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ToastPage extends StatefulWidget {
@@ -73,7 +74,7 @@ class _ToastPageState extends State<ToastPage> with TickerProviderStateMixin  {
             Center(
               child: ElevatedButton(
                 onPressed: () async {
-                  Toast.show(message: 'sdasdasqwrfadfasdfsa');
+                  Toast().show(context,message: 'sdasdasqwrfadfasdfsa');
 
                   _playAnimation();
 
