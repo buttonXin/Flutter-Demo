@@ -1,18 +1,66 @@
 import 'package:flutter/material.dart';
 
 class CommonView {
-  static Widget createButton(String text, VoidCallback onClick,
-      {double height = 50,
-      EdgeInsetsGeometry margin = const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 5,
-      ),
-      // 是否需要按钮渐变,默认false 不需要
-      bool isGradient = false}) {
+  /// 通过按钮，根据不同的参数来显示不同的效果
+  static Widget createButton(
+    String text,
+    VoidCallback onClick, {
+    double height = 50,
+    // 宽度默认true，组件铺满宽度
+    bool widthMax = true,
+    EdgeInsetsGeometry? margin,
+    // 是否需要按钮渐变,默认false 不需要
+    bool isGradient = false,
+  }) {
+    // 根据是否有渐变色，来判断按钮的总体颜色
     final Color allColor =
         isGradient ? Colors.transparent : const Color(0xffFCB605);
+
+    margin ??= const EdgeInsets.symmetric(
+      horizontal: 20,
+      vertical: 5,
+    );
+    // 按钮配置
+    final Widget child = ElevatedButton(
+      onPressed: onClick,
+      child: Text(text),
+      style: ButtonStyle(
+        elevation: MaterialStateProperty.all(2),
+        backgroundColor: MaterialStateProperty.all(allColor),
+        shadowColor: MaterialStateProperty.all(allColor),
+        shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+      ),
+    );
+
+    if (widthMax) {
+      return Container(
+        width: double.infinity,
+        height: height,
+        margin: margin,
+        decoration: BoxDecoration(
+            // todo  修改颜色
+            // 渐变色
+            gradient: const LinearGradient(colors: [Colors.blue, Colors.red]),
+            // 这里与下面的shape要对应
+            borderRadius: BorderRadius.circular(10)),
+        child: child,
+      );
+    } else {
+      return Container(
+        height: height,
+        margin: margin,
+        decoration: BoxDecoration(
+            // todo  修改颜色
+            // 渐变色
+            gradient: const LinearGradient(colors: [Colors.blue, Colors.red]),
+            // 这里与下面的shape要对应
+            borderRadius: BorderRadius.circular(10)),
+        child: child,
+      );
+    }
+
     return Container(
-      width: double.infinity,
       height: height,
       margin: margin,
       decoration: BoxDecoration(
